@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Conta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column
     private String conta;

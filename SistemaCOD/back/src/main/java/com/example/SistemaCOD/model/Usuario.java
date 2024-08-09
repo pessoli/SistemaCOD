@@ -20,20 +20,20 @@ public class Usuario implements Serializable {
 
     @Column
     private String senha;
-
-    @ManyToMany
-    @JoinColumn(name = "fk_despesa_id")
-    private ArrayList<Despesa> despesa;
-
-    @ManyToMany
-    @JoinColumn(name = "fk_financa_id")
-    private ArrayList<Financa> financa;
-
-    @ManyToMany
-    @JoinColumn(name = "fk_reserva_id")
-    private ArrayList<Reserva> reserva;
-
-    @ManyToMany
-    @JoinColumn(name = "fk_conta_id")
-    private ArrayList<Conta> conta;
+//
+//    @ManyToMany
+//    @JoinColumn(name = "fk_despesa_id")
+//    private ArrayList<Despesa> despesa;
+//
+//    @ManyToMany
+//    @JoinColumn(name = "fk_financa_id")
+//    private ArrayList<Financa> financa;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "fk_reserva_id")
+//    private ArrayList<Reserva> reserva;
+//
+//    @ManyToMany
+//    @JoinColumn(name = "fk_conta_id")
+//    private ArrayList<Conta> conta;
 }
