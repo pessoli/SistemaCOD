@@ -26,13 +26,13 @@ public class DespesaController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public Despesa buscar(@PathVariable Integer id) {
+    public Despesa buscar(@PathVariable Long id) {
         Optional<Despesa> despesa = despesaRepository.findById(id);
         return despesa.get();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public void excluir(@PathVariable Integer id) {
+    public void excluir(@PathVariable Long id) {
         Optional<Despesa> despesa = despesaRepository.findById(id);
         despesaRepository.delete(despesa.get());
     }

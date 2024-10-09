@@ -4,19 +4,27 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
-public class Reserva implements Serializable {
+public class TipoDespesa {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String reserva;
+    private String tipoDespesa;
 
     @Column
-    private Double valorReserva;
+    private double valorLimite;
+
+    @Column
+    private boolean temLimite;
+
+    @Column
+    private Long idUsuario;
+
+    @Column
+    private boolean ativo;
 }

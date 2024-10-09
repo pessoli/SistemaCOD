@@ -4,25 +4,21 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
-public class Financa implements Serializable {
+public class DicaFinanceira {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
-    private String financa;
+    private String titulo;
 
     @Column
-    private Double valorTotal;
+    private String linkVideo;
 
     @Column
-    private Double valorParcela;
-
-    @Column
-    private Integer quantParcela;
+    private boolean ativo;
 }

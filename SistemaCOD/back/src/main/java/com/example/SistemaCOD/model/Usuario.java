@@ -13,13 +13,19 @@ import java.util.ArrayList;
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
-    private String login;
+    private String nome;
 
     @Column
     private String senha;
+
+    @Column
+    private boolean ativo;
+
+    @Column
+    private String email;
 //
 //    @ManyToMany
 //    @JoinColumn(name = "fk_despesa_id")

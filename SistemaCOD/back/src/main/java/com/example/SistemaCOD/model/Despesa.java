@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,14 +13,20 @@ import java.io.Serializable;
 public class Despesa implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
-    private String despesa;
+    private LocalDate data;
 
     @Column
-    private String descricao;
+    private Long idTipoDespesa;
+
+    @Column
+    private Long idUsuario;
 
     @Column
     private double valor;
+
+    @Column
+    private String observacao;
 }

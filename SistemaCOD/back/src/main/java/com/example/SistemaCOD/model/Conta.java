@@ -12,11 +12,29 @@ import java.io.Serializable;
 public class Conta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
     private String conta;
 
     @Column
-    private Double valorConta;
+    private Integer qtdParcelas;
+
+    @Column
+    private Integer qtdRestantes;
+
+    @Column
+    private Integer qtdPagas;
+
+    @Column
+    private double valorParcela;
+
+    @Column
+    private double valorTotal;
+
+    @Column
+    private boolean ativo;
+
+    @Column
+    private Long idUsuario;
 }

@@ -22,13 +22,13 @@ public class ContaController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path="/{id}")
-    public Conta buscar(@PathVariable Integer id){
+    public Conta buscar(@PathVariable Long id){
         Optional<Conta> conta = contaRepository.findById(id);
         return conta.get();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path="/{id}")
-    public void excluir(@PathVariable Integer id){
+    public void excluir(@PathVariable Long id){
         Optional<Conta> conta = contaRepository.findById(id);
         contaRepository.delete(conta.get());
     }
@@ -40,10 +40,10 @@ public class ContaController {
 
     @RequestMapping(method = RequestMethod.PUT, path="/{id}")
     public void editar(@RequestBody Conta conta, @PathVariable Integer id){
-        Optional<Conta> objConta =  contaRepository.findById(id);
-        objConta.get().setId(id);
-        objConta.get().setConta(conta.getConta());
-        objConta.get().setValorConta(conta.getValorConta());
-        contaRepository.save(objConta.get());
+//        Optional<Conta> objConta =  contaRepository.findById(id);
+//        objConta.get().setId(id);
+//        objConta.get().setConta(conta.getConta());
+//        objConta.get().setValorConta(conta.getValorConta());
+//        contaRepository.save(objConta.get());
     }
 }

@@ -1,9 +1,9 @@
 package com.example.SistemaCOD.repository;
 
-import com.example.SistemaCOD.model.Reserva;
+import com.example.SistemaCOD.model.DicaFinanceira;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
+public interface DicaFinanceiraRepository extends JpaRepository<DicaFinanceira, Long> {
 }
