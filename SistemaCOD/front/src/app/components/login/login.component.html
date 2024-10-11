@@ -1,0 +1,28 @@
+<div class="login-container">
+  <p-card header="Login">
+    <form [formGroup]="formGroup" (ngSubmit)="login()">
+      <div *ngIf="validador" class="text-danger">
+        Dados incorretos
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input id="email" type="email" formControlName="email" pInputText/>
+          <label for="email">Email</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <p-password id="senha" formControlName="senha" [feedback]="false" [toggleMask]="true"/>
+          <label for="senha">Senha</label>
+        </p-floatLabel>
+      </div>
+
+
+      <div class="p-field">
+        <button pButton type="submit" label="Entrar" [disabled]="formGroup.invalid"></button>
+      </div>
+    </form>
+  </p-card>
+</div>

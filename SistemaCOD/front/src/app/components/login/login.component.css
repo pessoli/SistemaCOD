@@ -1,0 +1,19 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Para centralizar verticalmente */
+}
+
+p-card {
+  width: 400px; /* Defina uma largura fixa para o card */
+}
+
+.p-field {
+  width: 100%;
+  margin-bottom: 1rem; /* Espaçamento entre os campos */
+}
+
+.text-danger {
+  margin-bottom: 1rem; /* Espaçamento para a mensagem de erro */
+}
