@@ -1,0 +1,63 @@
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.page-content {
+  margin-top: 20px;
+}
+
+/* Tornar o p-menu responsivo e ocupar o espaço total */
+p-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.ui-menuitem {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  flex-grow: 1;  /* Para garantir que o item ocupe espaço proporcional */
+}
+
+.ui-menuitem-icon {
+  margin-right: 10px;
+}
+
+.ui-menuitem-text {
+  font-size: 16px;
+}

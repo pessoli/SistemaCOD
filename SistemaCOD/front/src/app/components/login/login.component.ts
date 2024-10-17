@@ -9,6 +9,8 @@ import {tap} from "rxjs";
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FloatLabelModule} from "primeng/floatlabel";
+import {MessagesModule} from "primeng/messages";
+import {Message} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -23,18 +25,19 @@ import {FloatLabelModule} from "primeng/floatlabel";
     CardModule,
     CommonModule,
     FloatLabelModule,
+    MessagesModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   formGroup: FormGroup;
-  validador: boolean = false;
+  messages!: Message[];
 
   constructor(
     private fb: FormBuilder,
     private loginService: UsuarioService,
-    private router: Router,
+    private router: Router
   ) {
     this.formGroup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,7 +55,7 @@ export class LoginComponent {
           if (res) {
             this.router.navigate(['/home']).then();
           } else {
-            this.validador = true;
+            this.messages = [{ severity: 'error', detail: 'Dados incorretos!'}]
           }
         }),
       )

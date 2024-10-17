@@ -1,1 +1,26 @@
-<p>home works!</p>
+<div class="layout-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="path-to-logo" alt="Sistema COD Logo" />
+      <h2>SISTEMA COD</h2>
+    </div>
+
+    <p-menu [model]="acessos"></p-menu>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main-content">
+    <p-messages
+      [(value)]="messages"
+      [showTransitionOptions]="'500ms'"
+      [hideTransitionOptions]="'500ms'"
+      [enableService]="false"
+    ></p-messages>
+
+    <!-- Aqui vai o conteúdo dinâmico da página -->
+    <div class="page-content">
+      <!-- Conteúdo a ser inserido -->
+    </div>
+  </div>
+</div>

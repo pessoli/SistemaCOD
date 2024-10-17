@@ -26,19 +26,7 @@ public class UsuarioController {
 //    }
 
     @PostMapping()
-    public ResponseEntity<String> salvarUsuario(@RequestBody Usuario usuario) {
-        try {
-            if (this.usuarioService.validarUsuarioLogado(usuario.getEmail(), usuario.getSenha())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body("Já existe um usuário cadastrado com este email e senha.");
-            }
-
-           usuarioService.salvarUsuario(usuario);
-           return ResponseEntity.status(HttpStatus.CREATED).body("");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao salvar o usuário: " + e.getMessage());
-        }
+    public ResponseEntity<Usuario> salvarUsuario(@RequestBody Usuario usuario) {
+           return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
     }
 }

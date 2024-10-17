@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,6 @@ export class UsuarioService {
 
 
   saveUsuario(usuario: any): Observable<any> {
-    console.log(usuario)
     return this.http.post(`${this.baseUrl}/usuarios`, usuario);
   }
 }

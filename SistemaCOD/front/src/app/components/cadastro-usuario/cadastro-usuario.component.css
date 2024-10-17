@@ -1,0 +1,31 @@
+.usuario-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Para centralizar verticalmente */
+}
+
+p-card {
+  width: 100%;
+  max-width: 500px; /* Largura máxima do card */
+  text-align: center;
+}
+
+.p-field {
+  width: 100%;
+  margin-bottom: 2rem; /* Espaçamento entre os campos */
+}
+
+.p-float-label {
+  width: 100%;
+}
+
+.p-field input {
+  width: 100%; /* Garantir que o input preencha todo o espaço */
+  box-sizing: border-box; /* Para incluir padding e bordas na largura total */
+}
+
+.p-field button {
+  display: block;
+  margin: 0 auto;
+}

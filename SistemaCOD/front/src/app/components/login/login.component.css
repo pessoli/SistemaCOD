@@ -6,14 +6,27 @@
 }
 
 p-card {
-  width: 400px; /* Defina uma largura fixa para o card */
+  width: 100%;
+  max-width: 500px; /* Largura máxima do card */
+  text-align: center;
 }
 
 .p-field {
   width: 100%;
-  margin-bottom: 1rem; /* Espaçamento entre os campos */
+  margin-bottom: 2rem; /* Espaçamento entre os campos */
 }
 
-.text-danger {
-  margin-bottom: 1rem; /* Espaçamento para a mensagem de erro */
+.p-float-label {
+  width: 100%;
+}
+
+.p-field input {
+  width: 100%; /* Garantir que o input preencha todo o espaço */
+  box-sizing: border-box; /* Para incluir padding e bordas na largura total */
+}
+
+/* Botão de login */
+.p-field button {
+  display: block;
+  margin: 0 auto;
 }
