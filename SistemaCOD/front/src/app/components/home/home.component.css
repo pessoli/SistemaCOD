@@ -61,3 +61,13 @@ p-menu {
 .ui-menuitem-text {
   font-size: 16px;
 }
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Faz o container ocupar toda a altura da tela */
+}
+
+.spacer {
+  flex: 6; /* Esta div ocupa o espaço restante */
+}

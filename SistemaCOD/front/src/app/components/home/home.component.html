@@ -6,7 +6,12 @@
       <h2>SISTEMA COD</h2>
     </div>
 
-    <p-menu [model]="acessos"></p-menu>
+    <div class="menu-container">
+      <p-menu [model]="acessosTela"></p-menu>
+      <div class="spacer"></div>
+      <p-menu [model]="botaoSair" class="menu-sair"></p-menu>
+    </div>
+
   </div>
 
   <!-- Conteúdo principal -->

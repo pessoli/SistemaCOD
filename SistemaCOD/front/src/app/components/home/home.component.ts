@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MessagesModule} from "primeng/messages";
-import {MenuItem, Message} from "primeng/api";
+import {MenuItem, Message, PrimeIcons} from "primeng/api";
 import {MessageService} from "../../services/message/message.service";
 import {MenuModule} from "primeng/menu";
 
@@ -16,7 +16,8 @@ import {MenuModule} from "primeng/menu";
 })
 export class HomeComponent implements OnInit {
   messages!: Message[]
-  acessos?: MenuItem[]
+  acessosTela?: MenuItem[]
+  botaoSair?: MenuItem[]
 
   constructor(
     private messageService: MessageService
@@ -28,7 +29,7 @@ export class HomeComponent implements OnInit {
       this.messages = message as Message[]; // Recebe a mensagem do serviço
     });
 
-    this.acessos = [
+    this.acessosTela = [
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -52,7 +53,8 @@ export class HomeComponent implements OnInit {
       {
         label: 'Educação Financeira',
         icon: 'pi pi-book',
-        routerLink: ['/educacao-financeira']
+        routerLink: ['/educacao-financeira'],
+        style: { width: '200px' }
       },
       {
         label: 'Relatório',
@@ -65,5 +67,13 @@ export class HomeComponent implements OnInit {
         routerLink: ['/historico']
       }
     ];
+
+    this.botaoSair = [
+      {
+        label: 'Sair',
+        icon: PrimeIcons.SIGN_OUT,
+        routerLink: ['/login']
+      },
+    ]
   }
 }
