@@ -2,14 +2,13 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo">
-      <img src="path-to-logo" alt="Sistema COD Logo" />
-      <h2>SISTEMA COD</h2>
+      <img src="assets/sistema.png" alt="Sistema COD Logo" />
     </div>
 
     <div class="menu-container">
       <p-menu [model]="acessosTela"></p-menu>
       <div class="spacer"></div>
-      <p-menu [model]="botaoSair" class="menu-sair"></p-menu>
+      <p-menu [model]="botaoSair" class="menu-sair" [ngClass]="{'red-text': true}"></p-menu>
     </div>
 
   </div>

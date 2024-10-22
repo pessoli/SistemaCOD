@@ -3,13 +3,16 @@ import {MessagesModule} from "primeng/messages";
 import {MenuItem, Message, PrimeIcons} from "primeng/api";
 import {MessageService} from "../../services/message/message.service";
 import {MenuModule} from "primeng/menu";
+import {NgClass, NgStyle} from "@angular/common";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     MessagesModule,
-    MenuModule
+    MenuModule,
+    NgStyle,
+    NgClass
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -18,6 +21,7 @@ export class HomeComponent implements OnInit {
   messages!: Message[]
   acessosTela?: MenuItem[]
   botaoSair?: MenuItem[]
+
 
   constructor(
     private messageService: MessageService
@@ -53,8 +57,7 @@ export class HomeComponent implements OnInit {
       {
         label: 'Educação Financeira',
         icon: 'pi pi-book',
-        routerLink: ['/educacao-financeira'],
-        style: { width: '200px' }
+        routerLink: ['/educacao-financeira']
       },
       {
         label: 'Relatório',
