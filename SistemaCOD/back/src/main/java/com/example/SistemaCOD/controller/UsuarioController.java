@@ -15,18 +15,25 @@ public class UsuarioController {
     public UsuarioService usuarioService;
 
     @GetMapping("/validaUsuario")
-    public boolean validaUsuario(@RequestParam String email, @RequestParam String senha) {
-        return usuarioService.validarUsuarioLogado(email, senha);
+    public ResponseEntity<Usuario> validaUsuario(@RequestParam String email, @RequestParam String senha) {
+        return ResponseEntity.ok(usuarioService.validarUsuarioLogado(email, senha));
     }
 
-//    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-//    public Usuario buscar(@PathVariable Integer id) {
-//        Optional<Usuario> usuario = usuarioService.findById(id);
-//        return usuario.get();
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> buscaUsuarioId(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.findById(id));
+    }
 
     @PostMapping()
     public ResponseEntity<Usuario> salvarUsuario(@RequestBody Usuario usuario) {
            return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+    }
+
+    @PutMapping("/atualizaUsuario")
+    public ResponseEntity<Usuario> atualizarUsuario(
+            @RequestParam Long id,
+            @RequestBody Usuario usuario
+    ) {
+        return ResponseEntity.ok(usuarioService.atualizarUsuario(id, usuario));
     }
 }

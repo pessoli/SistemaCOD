@@ -11,6 +11,7 @@ import {CommonModule} from "@angular/common";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
+import {SharedService} from "../../services/shared/shared.service";
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private loginService: UsuarioService,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService,
   ) {
     this.formGroup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,8 +54,10 @@ export class LoginComponent {
     this.loginService.validaUsuario(email, password)
       .pipe(
         tap(res => {
-          if (res) {
+          if (res !== null) {
             this.router.navigate(['/home']).then();
+            console.log(res);
+            this.sharedService.setIdUsuario(res.id)
           } else {
             this.messages = [{ severity: 'error', detail: 'Dados incorretos!'}]
           }

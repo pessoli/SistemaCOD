@@ -11,6 +11,7 @@ import {tap} from "rxjs";
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
 import {MessageService} from "../../services/message/message.service";
+import {SharedService} from "../../services/shared/shared.service";
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -35,7 +36,8 @@ export class CadastroUsuarioComponent {
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sharedService: SharedService
   ) {
     this.formGroupUsuario = this.fb.group({
       nome: ['', [Validators.required]],
@@ -56,12 +58,10 @@ export class CadastroUsuarioComponent {
       ativo: true
     };
 
-    console.log(this.usuario);
-
     this.usuarioService.validaUsuario(email, senha)
       .pipe(
         tap(res => {
-          if (!res) {
+          if (res == null) {
             this.salvarUsuario(this.usuario as CadastroUsuarioModel)
           } else {
             this.messages = [{ severity: 'error', detail: 'Já existe um Usuário com esse email e senha cadastrado!'}]
@@ -77,6 +77,10 @@ export class CadastroUsuarioComponent {
         tap(() => {
           this.messageService.setMessage([{ severity: 'info', summary: 'Info', detail: 'Usuário cadastrado com sucesso!'}]);
           this.router.navigate(['/home']).then()
+        }),
+        tap((res) => {
+          console.log(res)
+          this.sharedService.setIdUsuario(res.id)
         })
       )
       .subscribe();

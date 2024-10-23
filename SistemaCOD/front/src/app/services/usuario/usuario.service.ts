@@ -11,13 +11,17 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  validaUsuario(email: string, senha: string): Observable<boolean> {
+  validaUsuario(email: string, senha: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<boolean>(`${this.baseUrl}/usuarios/validaUsuario?email=${email}&senha=${senha}`, { headers });
+    return this.http.get(`${this.baseUrl}/usuarios/validaUsuario?email=${email}&senha=${senha}`, { headers });
   }
 
 
   saveUsuario(usuario: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/usuarios`, usuario);
+  }
+
+  atualizarPerfil(id: number, usuario: any): Observable<any> {
+   return this.http.put(`${this.baseUrl}/atualizaUsuario?id=${id}`, usuario);
   }
 }

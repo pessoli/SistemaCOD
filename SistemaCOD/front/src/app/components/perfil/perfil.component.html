@@ -1,0 +1,48 @@
+<div class="perfil-container">
+  <p-card header="Perfil">
+
+    <div class="p-field">
+      <p-messages
+        [(value)]="messages"
+        [showTransitionOptions]="'500ms'"
+        [hideTransitionOptions]="'500ms'"
+        [enableService]="false"
+        [closable]="false" />
+    </div>
+
+    <form [formGroup]="formGroupPerfil" (ngSubmit)="alterarPerfil()">
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input pInputText id="nome" formControlName="nome" required/>
+          <label for="nome">Nome</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input pInputText id="email" formControlName="email" required/>
+          <label for="email">Email</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input pInputText id="dataNascimento" formControlName="dataNascimento" required/>
+          <label for="dataNascimento">Data Nascimento</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input id="senha" formControlName="senha" pInputText type="password" required/>
+          <label for="senha">Senha</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="p-field">
+        <button pButton type="submit" label="Salvar" [disabled]="formGroupPerfil.invalid"></button>
+      </div>
+    </form>
+  </p-card>
+</div>
