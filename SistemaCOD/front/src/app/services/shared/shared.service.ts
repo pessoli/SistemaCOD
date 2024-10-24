@@ -10,7 +10,7 @@ export class SharedService {
     this.id = id;
   }
 
-  getUsuario(): number {
+  getIdUsuario(): number {
     return this.id;
   }
 }

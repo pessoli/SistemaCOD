@@ -7,7 +7,7 @@
 
 p-card {
   width: 100%;
-  max-width: 500px; /* Largura máxima do card */
+  max-width: 800px; /* Largura máxima do card */
   text-align: center;
 }
 

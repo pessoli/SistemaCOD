@@ -1,6 +1,5 @@
 <div class="perfil-container">
   <p-card header="Perfil">
-
     <div class="p-field">
       <p-messages
         [(value)]="messages"
@@ -14,34 +13,41 @@
 
       <div class="p-field">
         <p-floatLabel>
-          <input pInputText id="nome" formControlName="nome" required/>
+          <input pInputText id="nome" formControlName="nome"/>
           <label for="nome">Nome</label>
         </p-floatLabel>
       </div>
 
       <div class="p-field">
         <p-floatLabel>
-          <input pInputText id="email" formControlName="email" required/>
+          <input pInputText id="email" formControlName="email"/>
           <label for="email">Email</label>
         </p-floatLabel>
       </div>
 
       <div class="p-field">
         <p-floatLabel>
-          <input pInputText id="dataNascimento" formControlName="dataNascimento" required/>
+          <p-calendar
+            id="dataNascimento"
+            formControlName="dataNascimento"
+            [style]="{width: '100%'}"
+            [inputStyle]="{width: '100%'}"
+            [dateFormat]=" 'dd/mm/yy' "
+          />
           <label for="dataNascimento">Data Nascimento</label>
         </p-floatLabel>
       </div>
 
-      <div class="p-field">
-        <p-floatLabel>
-          <input id="senha" formControlName="senha" pInputText type="password" required/>
-          <label for="senha">Senha</label>
-        </p-floatLabel>
-      </div>
+
+      <!--      <div class="p-field">-->
+<!--        <p-floatLabel>-->
+<!--          <input id="senha" formControlName="senha" pInputText type="password" required/>-->
+<!--          <label for="senha">Senha</label>-->
+<!--        </p-floatLabel>-->
+<!--      </div>-->
 
       <div class="p-field">
-        <button pButton type="submit" label="Salvar" [disabled]="formGroupPerfil.invalid"></button>
+        <button pButton type="submit" label="Salvar"></button>
       </div>
     </form>
   </p-card>

@@ -1,7 +1,7 @@
 export interface PerfilModel {
+  id: number;
   nome: string;
   email: string;
-  senha: string;
   dataNascimento: string;
   ativo: boolean;
 }

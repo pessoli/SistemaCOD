@@ -22,6 +22,10 @@ export class UsuarioService {
   }
 
   atualizarPerfil(id: number, usuario: any): Observable<any> {
-   return this.http.put(`${this.baseUrl}/atualizaUsuario?id=${id}`, usuario);
+   return this.http.put(`${this.baseUrl}/usuarios/atualizaUsuario?id=${id}`, usuario);
+  }
+
+  buscaUsuarioPorId(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/usuarios/${id}`);
   }
 }
