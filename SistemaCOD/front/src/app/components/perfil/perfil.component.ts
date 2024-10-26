@@ -10,7 +10,7 @@ import {PerfilModel} from "./perfil.model";
 import {Message} from "primeng/api";
 import {UsuarioService} from "../../services/usuario/usuario.service";
 import {Router} from "@angular/router";
-import {MessageService} from "../../services/message/message.service";
+import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
 import {tap} from "rxjs";
 import {CalendarModule} from "primeng/calendar";

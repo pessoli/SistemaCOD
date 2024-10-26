@@ -1,5 +1,6 @@
 package com.example.SistemaCOD.model;
 
+import com.example.SistemaCOD.enumClass.LimiteStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,8 @@ public class TipoDespesa {
     private double valorLimite;
 
     @Column
-    private boolean temLimite;
+    @Enumerated(EnumType.STRING)  // Armazena como string no banco de dados
+    private LimiteStatus limite;
 
     @Column
     private Long idUsuario;

@@ -1,0 +1,170 @@
+<div class="card">
+  <p-toast />
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="New"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="adicionarTipoDespesa()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="tipoDespesas"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Tipo Despesa</h5>
+<!--        <span class="p-input-icon-left">-->
+<!--                    <i class="pi pi-search"></i>-->
+<!--                    <input-->
+<!--                      pInputText-->
+<!--                      type="text"-->
+<!--                      (input)="dt.filterGlobal($event.target.value, 'contains')"-->
+<!--                      placeholder="Search..." />-->
+<!--                </span>-->
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome" style="min-width:15rem">
+          Nome
+        </th>
+        <th pSortableColumn="limite">
+          Limite
+        </th>
+        <th pSortableColumn="valorLimite" style="min-width:10rem">
+          Valor Limite
+        </th>
+        <th pSortableColumn="ativo" style="min-width:10rem">
+          Ativo
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tipoDespesa>
+      <tr>
+        <td>
+          {{ tipoDespesa.tipoDespesa }}
+        </td>
+        <td>
+          <p-tag
+            [value]="tipoDespesa.limite"
+            [severity]="getSeverity(tipoDespesa.limite)"
+          />
+        </td>
+        <td>
+          {{ tipoDespesa.valorLimite | currency : 'BRL' }}
+        </td>
+        <td>
+          <i class="pi" [ngClass]="{ 'text-green pi-check-circle': tipoDespesa.ativo, 'text-red pi-times-circle': !tipoDespesa.ativo }"></i>
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editarTipoDespesa(tipoDespesa)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        No total são {{ tipoDespesas ? tipoDespesas.length : 0 }} produtos.
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-dialog
+    [(visible)]="tipoDespesaDialog"
+    [style]="{ width: '450px' }"
+    header="Tipo Despesa"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          pInputText
+          id="nome"
+          [(ngModel)]="tipoDespesa.tipoDespesa"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted && !tipoDespesa.tipoDespesa">
+          Name is required.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="limite">Limite?</label>
+        <p-dropdown
+          [(ngModel)]="tipoDespesa.limite"
+          inputId="limite"
+          [options]="statuses"
+          (onChange)="onLimiteChange()">
+          <ng-template pTemplate="selectedTipoDespesa">
+            <p-tag
+              [value]="tipoDespesa.limite.toUpperCase()"
+              [severity]="getSeverity(tipoDespesa.limite.toUpperCase())" />
+          </ng-template>
+          <ng-template let-option pTemplate="tipoDespesa">
+            <p-tag
+              [value]="option.label"
+              [severity]="getSeverity(option.label)" />
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="price">Valor Limite</label>
+          <p-inputNumber
+            id="price"
+            [disabled]="tipoDespesa.limite === 'Sem Limite'"
+            [(ngModel)]="tipoDespesa.valorLimite"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR" />
+        </div>
+        <div class="field col">
+          <label for="ativo">Ativo </label>
+          <p-checkbox
+            id="ativo"
+            [(ngModel)]="tipoDespesa.ativo"
+            binary="true"
+          ></p-checkbox>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="hideDialog()" />
+      <p-button
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="salvarTipoDespesa()" />
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }" />
+
+</div>

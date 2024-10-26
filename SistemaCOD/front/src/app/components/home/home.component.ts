@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
-import {MessageService} from "../../services/message/message.service";
+import {MessageSharedService} from "../../services/message/messageShared.service";
 import {MenuModule} from "primeng/menu";
 import {NgClass, NgStyle} from "@angular/common";
 @Component({
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    private messageService: MessageService,
+    private messageService: MessageSharedService,
   ) {
   }
 

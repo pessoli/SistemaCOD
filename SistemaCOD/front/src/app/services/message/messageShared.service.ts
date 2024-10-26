@@ -5,7 +5,7 @@ import {Message} from "primeng/api";
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessageSharedService {
 
   private messageSource = new BehaviorSubject<Message[] | null>(null);
   currentMessage = this.messageSource.asObservable();

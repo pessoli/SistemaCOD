@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import {MenuModule} from "primeng/menu";
 import {NgClass} from "@angular/common";
 import {MenuItem, Message, PrimeIcons} from "primeng/api";
-import {MessageService} from "../../services/message/message.service";
+import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
 
 @Component({
@@ -38,6 +38,11 @@ export class LayoutComponent implements OnInit {
         label: 'Perfil',
         icon: 'pi pi-user',
         routerLink: [`/perfil/${idUsuario}`]
+      },
+      {
+        label: 'Tipo Despesa',
+        icon: 'pi pi-list-check',
+        routerLink: [`/tipo-despesa/${idUsuario}`]
       },
       {
         label: 'Despesas',

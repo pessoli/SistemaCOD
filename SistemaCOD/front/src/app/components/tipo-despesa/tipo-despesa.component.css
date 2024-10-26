@@ -1,0 +1,17 @@
+:host ::ng-deep .p-dialog .product-image {
+  width: 1750px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+}
+
+.field {
+  margin-bottom: 2rem; /* Ajuste conforme necessário */
+}
+
+.text-green {
+  color: green;
+}
+
+.text-red {
+  color: red;
+}

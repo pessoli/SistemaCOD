@@ -10,7 +10,7 @@ import {CadastroUsuarioModel} from "./cadastro-usuario.model";
 import {tap} from "rxjs";
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
-import {MessageService} from "../../services/message/message.service";
+import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
 
 @Component({
@@ -36,7 +36,7 @@ export class CadastroUsuarioComponent {
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-    private messageService: MessageService,
+    private messageService: MessageSharedService,
     private sharedService: SharedService
   ) {
     this.formGroupUsuario = this.fb.group({

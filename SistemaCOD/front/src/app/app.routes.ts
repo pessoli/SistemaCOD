@@ -4,6 +4,7 @@ import {CadastroUsuarioComponent} from "./components/cadastro-usuario/cadastro-u
 import {HomeComponent} from "./components/home/home.component";
 import {PerfilComponent} from "./components/perfil/perfil.component";
 import {LayoutComponent} from "./components/layout/layout.component";
+import {TipoDespesaComponent} from "./components/tipo-despesa/tipo-despesa.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ export const routes: Routes = [
       // Defina aqui as rotas que devem usar o layout com a sidebar
       { path: 'home', component: HomeComponent },
       { path: 'perfil/:id', component: PerfilComponent },
+      { path: 'tipo-despesa/:idUsuario', component: TipoDespesaComponent }
       // ...
     ]
   },
