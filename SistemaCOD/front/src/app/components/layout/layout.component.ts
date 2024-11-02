@@ -1,9 +1,10 @@
 import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import {MenuModule} from "primeng/menu";
 import {NgClass} from "@angular/common";
-import {MenuItem, Message, PrimeIcons} from "primeng/api";
+import {MenuItem, MenuItemCommandEvent, Message, PrimeIcons} from "primeng/api";
 import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-layout',
@@ -22,6 +23,7 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
+    private router: Router
   ) {
   }
 
@@ -41,7 +43,7 @@ export class LayoutComponent implements OnInit {
       },
       {
         label: 'Tipo Despesa',
-        icon: 'pi pi-list-check',
+        icon: 'pi pi-pencil',
         routerLink: [`/tipo-despesa/${idUsuario}`]
       },
       {
@@ -50,9 +52,9 @@ export class LayoutComponent implements OnInit {
         routerLink: ['/despesas']
       },
       {
-        label: 'Financias',
+        label: 'Financiamento',
         icon: 'pi pi-dollar',
-        routerLink: ['/financias']
+        routerLink: [`/financiamento/${idUsuario}`]
       },
       {
         label: 'Educação Financeira',
@@ -64,19 +66,20 @@ export class LayoutComponent implements OnInit {
         icon: 'pi pi-chart-line',
         routerLink: ['/relatorio']
       },
-      {
-        label: 'Histórico',
-        icon: 'pi pi-pencil',
-        routerLink: ['/historico']
-      }
     ];
 
     this.botaoSair = [
       {
         label: 'Sair',
         icon: PrimeIcons.SIGN_OUT,
-        routerLink: ['/login']
+        command: () => this.logout()
       },
     ]
+  }
+
+  public logout() {
+    localStorage.removeItem('userId');
+
+    this.router.navigate(['/login'])
   }
 }

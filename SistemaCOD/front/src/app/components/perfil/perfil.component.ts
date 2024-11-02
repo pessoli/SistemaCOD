@@ -54,7 +54,7 @@ export class PerfilComponent {
 
     const idUsuario = this.sharedService.getIdUsuario()
 
-    this.usuarioService.buscaUsuarioPorId(idUsuario)
+    this.usuarioService.buscaUsuarioPorId(idUsuario as unknown as number)
       .pipe(
         tap(usuario => {
           const dataNascimento = new Date(usuario.dataNascimento[0], usuario.dataNascimento[1] - 1, usuario.dataNascimento[2]);

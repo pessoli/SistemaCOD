@@ -10,8 +10,7 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {MessagesModule} from "primeng/messages";
-import {Message} from "primeng/api";
-import {SharedService} from "../../services/shared/shared.service";
+import {ConfirmationService, Message, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -28,6 +27,7 @@ import {SharedService} from "../../services/shared/shared.service";
     FloatLabelModule,
     MessagesModule,
   ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -39,7 +39,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: UsuarioService,
     private router: Router,
-    private sharedService: SharedService,
+    private messageService: MessageService
   ) {
     this.formGroup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -56,8 +56,8 @@ export class LoginComponent {
         tap(res => {
           if (res !== null) {
             this.router.navigate(['/home']).then();
-            console.log(res);
-            this.sharedService.setIdUsuario(res.id)
+
+            localStorage.setItem('userId', res.id);
           } else {
             this.messages = [{ severity: 'error', detail: 'Dados incorretos!'}]
           }

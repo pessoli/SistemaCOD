@@ -61,10 +61,8 @@ export class TipoDespesaComponent {
 
   constructor(
     private messageService: MessageService,
-    private fb: FormBuilder,
     private sharedService: SharedService,
     private tipoDespesaService: TipoDespesaService,
-    private confirmationService: ConfirmationService
   ) {
     this.buscarTipoDespesa();
 
@@ -77,7 +75,7 @@ export class TipoDespesaComponent {
   public buscarTipoDespesa() {
     const idUsuario = this.sharedService.getIdUsuario()
 
-    this.tipoDespesaService.buscarTipoDespesaPorIdUsuario(idUsuario)
+    this.tipoDespesaService.buscarTipoDespesaPorIdUsuario(idUsuario as unknown as number)
       .pipe(
         map(res => {
           console.log(res)
@@ -104,7 +102,7 @@ export class TipoDespesaComponent {
       limite: 'SEM_LIMITE',
       valorLimite: 0,
       ativo: true,
-      idUsuario: this.sharedService.getIdUsuario()
+      idUsuario: this.sharedService.getIdUsuario() as unknown as number
     };
   }
 

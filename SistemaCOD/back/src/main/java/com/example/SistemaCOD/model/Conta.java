@@ -18,19 +18,25 @@ public class Conta implements Serializable {
     private String conta;
 
     @Column
-    private Integer qtdParcelas;
+    private Integer totalParcelas;
 
     @Column
-    private Integer qtdRestantes;
+    private Integer parcelasRestantes;
 
     @Column
-    private Integer qtdPagas;
+    private Integer parcelasPagas;
 
     @Column
     private double valorParcela;
 
     @Column
     private double valorTotal;
+
+    @Column
+    private double valorRestante;
+
+    @Column
+    private double valorPago;
 
     @Column
     private boolean ativo;

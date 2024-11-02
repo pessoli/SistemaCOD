@@ -4,13 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedService {
-  private id: number = 0;
 
-  setIdUsuario(id: number) {
-    this.id = id;
-  }
-
-  getIdUsuario(): number {
-    return this.id;
+  getIdUsuario(): string | null {
+    return localStorage.getItem('userId');
   }
 }

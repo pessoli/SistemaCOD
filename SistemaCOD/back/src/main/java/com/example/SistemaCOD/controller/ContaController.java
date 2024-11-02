@@ -1,9 +1,12 @@
 package com.example.SistemaCOD.controller;
 
 import com.example.SistemaCOD.model.Conta;
+import com.example.SistemaCOD.model.PagamentoParcelaHistorico;
+import com.example.SistemaCOD.model.TipoDespesa;
 import com.example.SistemaCOD.repository.ContaRepository;
 import com.example.SistemaCOD.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,34 +20,44 @@ public class ContaController {
     @Autowired
     private ContaService contaService;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public List<Conta> listar(){
-//        return contaRepository.findAll();
-//    }
-//
-//    @RequestMapping(method = RequestMethod.GET, path="/{id}")
-//    public Conta buscar(@PathVariable Long id){
-//        Optional<Conta> conta = contaRepository.findById(id);
-//        return conta.get();
-//    }
-//
-//    @RequestMapping(method = RequestMethod.DELETE, path="/{id}")
-//    public void excluir(@PathVariable Long id){
-//        Optional<Conta> conta = contaRepository.findById(id);
-//        contaRepository.delete(conta.get());
-//    }
-//
-//    @RequestMapping(method = RequestMethod.POST)
-//    public void salvar(@RequestBody Conta conta){
-//        contaRepository.save(conta);
-//    }
-//
-//    @RequestMapping(method = RequestMethod.PUT, path="/{id}")
-//    public void editar(@RequestBody Conta conta, @PathVariable Integer id){
-////        Optional<Conta> objConta =  contaRepository.findById(id);
-////        objConta.get().setId(id);
-////        objConta.get().setConta(conta.getConta());
-////        objConta.get().setValorConta(conta.getValorConta());
-////        contaRepository.save(objConta.get());
-//    }
+    @GetMapping("busca/{idUsuario}")
+    public ResponseEntity<List<Conta>> buscarContaPorUsuarioId(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(contaService.buscarContaPorUsuarioId(idUsuario));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Conta> buscarContaPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(contaService.buscarPorId(id));
+    }
+
+    @PostMapping()
+    public ResponseEntity<Conta> salvarConta(@RequestBody Conta conta) {
+        return ResponseEntity.ok(contaService.salvarConta(conta));
+    }
+
+    @PutMapping("/atualizaConta")
+    public ResponseEntity<Conta> atualizarConta(
+            @RequestBody Conta conta
+    ) {
+        return ResponseEntity.ok(contaService.atualizarConta(conta));
+    }
+
+    @PostMapping("/mesPagamentoParcela")
+    public ResponseEntity<PagamentoParcelaHistorico> mesPagamentoParcela(
+            @RequestBody PagamentoParcelaHistorico pagamentoParcelaHistorico
+    ) {
+        return ResponseEntity.ok(contaService.salvarMesPagamento(pagamentoParcelaHistorico));
+    }
+
+    @GetMapping("/buscaPagamento")
+    public ResponseEntity<List<PagamentoParcelaHistorico>> buscarPagamentoParcela(@RequestParam Long idConta) {
+        return ResponseEntity.ok(contaService.buscarPagamentoIdConta(idConta));
+    }
+
+    @PutMapping("/atualizaParcelasConta")
+    public ResponseEntity<Conta> atualizarParcelasConta(
+            @RequestParam Long idConta
+    ) {
+        return ResponseEntity.ok(contaService.atualizarParcelasPagas(idConta));
+    }
 }

@@ -9,9 +9,8 @@ import {Router} from "@angular/router";
 import {CadastroUsuarioModel} from "./cadastro-usuario.model";
 import {tap} from "rxjs";
 import {MessagesModule} from "primeng/messages";
-import {Message} from "primeng/api";
+import {ConfirmationService, Message, MessageService} from "primeng/api";
 import {MessageSharedService} from "../../services/message/messageShared.service";
-import {SharedService} from "../../services/shared/shared.service";
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -24,6 +23,7 @@ import {SharedService} from "../../services/shared/shared.service";
     ButtonDirective,
     MessagesModule,
   ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './cadastro-usuario.component.html',
   styleUrl: './cadastro-usuario.component.css'
 })
@@ -37,7 +37,6 @@ export class CadastroUsuarioComponent {
     private usuarioService: UsuarioService,
     private router: Router,
     private messageService: MessageSharedService,
-    private sharedService: SharedService
   ) {
     this.formGroupUsuario = this.fb.group({
       nome: ['', [Validators.required]],
@@ -79,8 +78,7 @@ export class CadastroUsuarioComponent {
           this.router.navigate(['/home']).then()
         }),
         tap((res) => {
-          console.log(res)
-          this.sharedService.setIdUsuario(res.id)
+          localStorage.setItem('userId', res.id);
         })
       )
       .subscribe();

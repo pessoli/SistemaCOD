@@ -5,6 +5,8 @@ import {HomeComponent} from "./components/home/home.component";
 import {PerfilComponent} from "./components/perfil/perfil.component";
 import {LayoutComponent} from "./components/layout/layout.component";
 import {TipoDespesaComponent} from "./components/tipo-despesa/tipo-despesa.component";
+import {FinanciamentoComponent} from "./components/financiamento/financiamento.component";
+import {AuthGuard} from "./guards/auth.guard";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,11 +15,13 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       // Defina aqui as rotas que devem usar o layout com a sidebar
       { path: 'home', component: HomeComponent },
       { path: 'perfil/:id', component: PerfilComponent },
-      { path: 'tipo-despesa/:idUsuario', component: TipoDespesaComponent }
+      { path: 'tipo-despesa/:idUsuario', component: TipoDespesaComponent },
+      { path: 'financiamento/:idUsuario', component: FinanciamentoComponent }
       // ...
     ]
   },

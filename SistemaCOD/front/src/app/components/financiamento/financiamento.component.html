@@ -1,0 +1,254 @@
+<div class="card">
+  <p-toast />
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Novo Financiamento"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="adicionarFinanciamento()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="financiamentos"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Financiamento</h5>
+        <!--        <span class="p-input-icon-left">-->
+        <!--                    <i class="pi pi-search"></i>-->
+        <!--                    <input-->
+        <!--                      pInputText-->
+        <!--                      type="text"-->
+        <!--                      (input)="dt.filterGlobal($event.target.value, 'contains')"-->
+        <!--                      placeholder="Search..." />-->
+        <!--                </span>-->
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome" style="min-width:15rem">
+          Nome
+        </th>
+        <th pSortableColumn="qtdParcelas">
+          Total Parcelas
+        </th>
+        <th pSortableColumn="qtdPagas">
+          Parcelas Pagas
+        </th>
+        <th pSortableColumn="qtdRestantes">
+          Parcelas Restantes
+        </th>
+        <th pSortableColumn="valorParcela">
+          Valor Parcela
+        </th>
+        <th pSortableColumn="valorRestante">
+          Valor Restante
+        </th>
+        <th pSortableColumn="valorPago">
+          Valor Pago
+        </th>
+        <th pSortableColumn="valorTotal">
+          Valor Total
+        </th>
+        <th pSortableColumn="ativo">
+          Ativo
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-financiamento>
+      <tr>
+        <td>
+          {{ financiamento.conta }}
+        </td>
+        <td>
+          {{ financiamento.totalParcelas }}
+        </td>
+        <td>
+          {{ financiamento.parcelasPagas }}
+        </td>
+        <td>
+          {{ financiamento.parcelasRestantes }}
+        </td>
+        <td>
+          {{ financiamento.valorParcela | currency : 'BRL' }}
+        </td>
+        <td>
+          {{ financiamento.valorRestante | currency : 'BRL' }}
+        </td>
+        <td>
+          {{ financiamento.valorPago | currency : 'BRL' }}
+        </td>
+        <td>
+          {{ financiamento.valorTotal | currency : 'BRL' }}
+        </td>
+        <td>
+          <i class="pi" [ngClass]="{ 'text-green pi-check-circle': financiamento.ativo, 'text-red pi-times-circle': !financiamento.ativo }"></i>
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="botao-espacado"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editarFinanciamento(financiamento)">
+          </p-button>
+          <p-button
+            icon="pi pi-dollar"
+            class="botao-espacado"
+            [rounded]="true"
+            [outlined]="true"
+            severity="info"
+            (onClick)="pagarParcela(financiamento.id)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        No total são {{ financiamentos ? financiamentos.length : 0 }} financiamentos.
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-dialog
+    [(visible)]="financiamentoDialog"
+    [style]="{ width: '450px' }"
+    header="Financiamento"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          pInputText
+          id="nome"
+          [(ngModel)]="financiamento.conta"
+          required
+          autofocus />
+        <small class="p-error" *ngIf="submitted && !financiamento.conta">
+          Name is required.
+        </small>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="qtdParcelas">Total Parcelas</label>
+          <p-inputNumber
+            id="qtdParcelas"
+            [(ngModel)]="financiamento.totalParcelas" />
+        </div>
+        <div class="field col">
+          <label for="qtdPagas">Parcelas Pagas</label>
+          <p-inputNumber
+            id="qtdPagas"
+            [disabled]="financiamento.id !== 0"
+            [(ngModel)]="financiamento.parcelasPagas" />
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="valorParcela">Valor Parcela</label>
+          <p-inputNumber
+            id="valorParcela"
+            [(ngModel)]="financiamento.valorParcela"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR" />
+        </div>
+        <div class="field col">
+          <label for="valorTotal">Valor Total</label>
+          <p-inputNumber
+            id="valorTotal"
+            [(ngModel)]="financiamento.valorTotal"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR" />
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="ativo">Ativo </label>
+          <p-checkbox
+            id="ativo"
+            [(ngModel)]="financiamento.ativo"
+            binary="true"
+          ></p-checkbox>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="hideDialog()" />
+      <p-button
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="salvarFinanciamento()" />
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }" />
+
+
+  <p-dialog
+    [(visible)]="parcelaDialog"
+    [style]="{ width: '450px', height: '250px' }"
+    header="Informar Parcela Paga"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">
+        <p-floatLabel>
+          <p-calendar
+            [(ngModel)]="dataParcelaPaga"
+            view="month"
+            dateFormat="mm/yy"
+            [readonlyInput]="true"
+            inputId="mesPagamento"
+            appendTo="body"/>
+          <label for="mesPagamento">Mês da Parcela</label>
+        </p-floatLabel>
+        <small class="p-error" *ngIf="submitted && !dataParcelaPaga">
+          Campo Mês é obrigatório
+        </small>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="hideDialog()" />
+      <p-button
+        label="Pagar Parcela"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="salvarParcelaPaga()" />
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px', height: '250px' }" />
+
+</div>
