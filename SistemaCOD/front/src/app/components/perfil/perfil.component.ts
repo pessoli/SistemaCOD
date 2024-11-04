@@ -57,6 +57,7 @@ export class PerfilComponent {
     this.usuarioService.buscaUsuarioPorId(idUsuario as unknown as number)
       .pipe(
         tap(usuario => {
+          console.log(usuario)
           const dataNascimento = new Date(usuario.dataNascimento[0], usuario.dataNascimento[1] - 1, usuario.dataNascimento[2]);
 
           this.formGroupPerfil.setValue({
@@ -71,7 +72,7 @@ export class PerfilComponent {
   }
 
   public alterarPerfil() {
-    const idUsuario = this.formGroupPerfil.controls['id'].value;
+    const idUsuario = this.sharedService.getIdUsuario() as unknown as number;
 
     this.perfil = {
       id: idUsuario,
@@ -81,7 +82,7 @@ export class PerfilComponent {
       ativo: true
     }
 
-    this.usuarioService.atualizarPerfil(idUsuario, this.perfil)
+    this.usuarioService.atualizarPerfil(this.perfil?.id, this.perfil)
       .pipe(
         tap(() =>
           this.messages = [{ severity: 'success', detail: 'Usuário atualizado com sucesso!'}]

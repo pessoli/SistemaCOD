@@ -179,7 +179,7 @@ export class FinanciamentoComponent {
           })
         }),
         tap(() => {
-          if (data.getTime() === this.dataParcelaPaga?.getTime()) {
+          if ((data !== undefined) && data.getTime() === this.dataParcelaPaga?.getTime()) {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Parcela referente ao mês selecionado já foi pago. ', life: 3000 });
           } else {
             this.mesPagamento(this.idFinanciamento);
