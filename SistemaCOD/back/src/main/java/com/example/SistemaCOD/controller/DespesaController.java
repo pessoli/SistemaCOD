@@ -1,12 +1,13 @@
 package com.example.SistemaCOD.controller;
 
+import com.example.SistemaCOD.model.Conta;
 import com.example.SistemaCOD.model.Despesa;
 import com.example.SistemaCOD.repository.DespesaRepository;
+import com.example.SistemaCOD.service.DespesaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,32 +15,32 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/despesas")
 public class DespesaController {
-    private DespesaRepository despesaRepository;
 
-    public DespesaController(DespesaRepository despesaRepository) {
-        this.despesaRepository = despesaRepository;
+    @Autowired
+    private DespesaService despesaService;
+
+    @GetMapping("busca/{idUsuario}")
+    public ResponseEntity<List<Despesa>> buscarDespesaPorUsuarioId(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(despesaService.buscarDespesaPorUsuarioId(idUsuario));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Despesa> listar() {
-        return despesaRepository.findAll();
+    @PostMapping()
+    public ResponseEntity<Despesa> salvarDespesa(@RequestBody Despesa despesa) {
+        return ResponseEntity.ok(despesaService.salvarDespesa(despesa));
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public Despesa buscar(@PathVariable Long id) {
-        Optional<Despesa> despesa = despesaRepository.findById(id);
-        return despesa.get();
+    @DeleteMapping()
+    public ResponseEntity<Void> excluir(@RequestParam Long id) {
+        despesaService.deletarDespesa(id);
+
+        return ResponseEntity.ok().body(null);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public void excluir(@PathVariable Long id) {
-        Optional<Despesa> despesa = despesaRepository.findById(id);
-        despesaRepository.delete(despesa.get());
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public void salvar(@RequestBody Despesa despesa) {
-        despesaRepository.save(despesa);
+    @PutMapping("/atualizaDespesa")
+    public ResponseEntity<Despesa> atualizarDespesa(
+            @RequestBody Despesa despesa
+    ) {
+        return ResponseEntity.ok(despesaService.atualizarDespesa(despesa));
     }
 
 }
