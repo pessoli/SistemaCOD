@@ -1,0 +1,156 @@
+<div class="card">
+  <p-toast />
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Nova Despesa"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="adicionarDespesa()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="despesas"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Despesa</h5>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="Nome" style="min-width:15rem">
+          Nome
+        </th>
+        <th pSortableColumn="data">
+          Data
+        </th>
+        <th pSortableColumn="valor" style="min-width:10rem">
+          Valor
+        </th>
+        <th pSortableColumn="tipoDespesa" style="min-width:10rem">
+          Tipo Despesa
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-despesa>
+      <tr>
+        <td>
+          {{ despesa.observacao }}
+        </td>
+        <td>
+          {{ despesa.data }}
+        </td>
+        <td>
+          {{ despesa.valor | currency : 'BRL' }}
+        </td>
+        <td>
+          {{ getTipoDespesa(despesa.idTipoDespesa) }}
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="botao-espacado"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editarDespesa(despesa)">
+          </p-button>
+          <p-button
+            icon="pi pi-trash"
+            class="botao-espacado"
+            [rounded]="true"
+            [outlined]="true"
+            severity="danger"
+            (onClick)="deletaDespesa(despesa.id)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        No total são {{ despesas ? despesas.length : 0 }} despesas.
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-dialog
+    [(visible)]="despesaDialog"
+    [style]="{ width: '450px' }"
+    header="Despesa"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          pInputText
+          id="nome"
+          [(ngModel)]="despesa.observacao"
+          required
+          autofocus />
+<!--        <small class="p-error" *ngIf="submitted && !tipoDespesa.tipoDespesa">-->
+<!--          Name is required.-->
+<!--        </small>-->
+      </div>
+
+      <div class="field">
+        <label for="tipoDespesa">Tipo Despesa</label>
+        <p-dropdown
+          [options]="tipoDespesa"
+          [(ngModel)]="selectedTipoDespesa"
+          optionLabel="tipoDespesa"
+          inputId="tipoDespesa" />
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="price">Valor</label>
+          <p-inputNumber
+            id="price"
+            [(ngModel)]="despesa.valor"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR" />
+        </div>
+        <div class="field col">
+            <label for="data">Data</label>
+            <p-calendar
+              [(ngModel)]="despesa.data"
+              [readonlyInput]="true"
+              inputId="data"
+              appendTo="body"/>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="hideDialog()" />
+      <p-button
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="salvarDespesa()" />
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }" />
+
+</div>

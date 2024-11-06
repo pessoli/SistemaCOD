@@ -7,15 +7,14 @@ import {MessagesModule} from "primeng/messages";
 import {PaginatorModule} from "primeng/paginator";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {PerfilModel} from "./perfil.model";
-import {Message} from "primeng/api";
+import {ConfirmationService, Message, MessageService} from "primeng/api";
 import {UsuarioService} from "../../services/usuario/usuario.service";
-import {Router} from "@angular/router";
-import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
 import {tap} from "rxjs";
 import {CalendarModule} from "primeng/calendar";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {InputGroupModule} from "primeng/inputgroup";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @Component({
   selector: 'app-perfil',
@@ -30,7 +29,8 @@ import {InputGroupModule} from "primeng/inputgroup";
     ReactiveFormsModule,
     CalendarModule,
     InputGroupAddonModule,
-    InputGroupModule
+    InputGroupModule,
+    ConfirmDialogModule
   ],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
@@ -85,7 +85,7 @@ export class PerfilComponent {
     this.usuarioService.atualizarPerfil(this.perfil?.id, this.perfil)
       .pipe(
         tap(() =>
-          this.messages = [{ severity: 'success', detail: 'Usuário atualizado com sucesso!'}]
+          this.messages = [{ severity: 'success', detail: 'Usuário atualizado com sucesso!', life: 3000 }]
         ),
         tap(() => {
           this.usuarioService.buscaUsuarioPorId(idUsuario).subscribe();

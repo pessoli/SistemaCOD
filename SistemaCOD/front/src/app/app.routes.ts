@@ -7,6 +7,7 @@ import {LayoutComponent} from "./components/layout/layout.component";
 import {TipoDespesaComponent} from "./components/tipo-despesa/tipo-despesa.component";
 import {FinanciamentoComponent} from "./components/financiamento/financiamento.component";
 import {AuthGuard} from "./guards/auth.guard";
+import {DespesaComponent} from "./components/despesa/despesa.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,7 +22,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'perfil/:id', component: PerfilComponent },
       { path: 'tipo-despesa/:idUsuario', component: TipoDespesaComponent },
-      { path: 'financiamento/:idUsuario', component: FinanciamentoComponent }
+      { path: 'financiamento/:idUsuario', component: FinanciamentoComponent },
+      { path: 'despesa/:idUsuario', component: DespesaComponent },
       // ...
     ]
   },

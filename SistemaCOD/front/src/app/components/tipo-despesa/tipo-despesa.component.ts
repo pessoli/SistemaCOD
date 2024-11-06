@@ -114,7 +114,13 @@ export class TipoDespesaComponent {
       this.tipoDespesa.limite = this.tipoDespesa.limite === 'Sem Limite' ? 'SEM_LIMITE' : 'COM_LIMITE';
 
       if (this.tipoDespesa.id === 0) {
-        this.tipoDespesaService.saveTipoDespesa(this.tipoDespesa).subscribe();
+        this.tipoDespesaService.saveTipoDespesa(this.tipoDespesa)
+          .pipe(
+            tap(() => {
+              this.buscarTipoDespesa();
+            })
+          )
+          .subscribe();
 
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Tipo Despesa criado com Sucesso!', life: 3000 });
       } else {
@@ -129,7 +135,6 @@ export class TipoDespesaComponent {
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tipo Despesa atualizado com Sucesso!', life: 3000 });
       }
 
-      this.buscarTipoDespesa();
       this.tipoDespesaDialog = false;
       this.tipoDespesa = {
         id: 0,

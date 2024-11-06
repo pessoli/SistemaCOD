@@ -49,7 +49,7 @@ export class LayoutComponent implements OnInit {
       {
         label: 'Despesas',
         icon: 'pi pi-wallet',
-        routerLink: ['/despesas']
+        routerLink: [`/despesa/${idUsuario}`]
       },
       {
         label: 'Financiamento',
