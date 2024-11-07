@@ -2,6 +2,7 @@ package com.example.SistemaCOD.controller;
 
 import com.example.SistemaCOD.model.Conta;
 import com.example.SistemaCOD.model.Despesa;
+import com.example.SistemaCOD.model.TipoDespesa;
 import com.example.SistemaCOD.repository.DespesaRepository;
 import com.example.SistemaCOD.service.DespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,16 @@ public class DespesaController {
     @Autowired
     private DespesaService despesaService;
 
-    @GetMapping("busca/{idUsuario}")
+    @GetMapping("/busca/{idUsuario}")
     public ResponseEntity<List<Despesa>> buscarDespesaPorUsuarioId(@PathVariable Long idUsuario) {
         return ResponseEntity.ok(despesaService.buscarDespesaPorUsuarioId(idUsuario));
+    }
+
+    @GetMapping("/tipoDespesaLimiteUltrapassado")
+    public ResponseEntity<List<TipoDespesa>> buscaTipoDespesaLimiteUltrapassado(
+            @RequestParam Long idUsuario
+    ) {
+        return ResponseEntity.ok(despesaService.buscarTipoDespesaLimiteUltrapassado(idUsuario));
     }
 
     @PostMapping()

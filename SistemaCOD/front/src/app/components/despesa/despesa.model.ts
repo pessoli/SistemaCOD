@@ -5,4 +5,5 @@ export interface DespesaModel {
   valor: number;
   idUsuario: number;
   idTipoDespesa: number;
+  tipoDespesaNome: string;
 }

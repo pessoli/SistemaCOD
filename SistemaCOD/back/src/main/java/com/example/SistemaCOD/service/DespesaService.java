@@ -3,6 +3,7 @@ package com.example.SistemaCOD.service;
 
 import com.example.SistemaCOD.model.Conta;
 import com.example.SistemaCOD.model.Despesa;
+import com.example.SistemaCOD.model.TipoDespesa;
 import com.example.SistemaCOD.repository.DespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,9 @@ public class DespesaService {
 
     public void deletarDespesa(Long id) {
         this.despesaRepository.deleteById(id);
+    }
+
+    public List<TipoDespesa> buscarTipoDespesaLimiteUltrapassado(Long idUsuario) {
+        return this.despesaRepository.findTipoDespesaLimiteUltrapassado(idUsuario);
     }
 }

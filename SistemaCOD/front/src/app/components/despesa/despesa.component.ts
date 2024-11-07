@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Button} from "primeng/button";
 import {CheckboxModule} from "primeng/checkbox";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
-import {CurrencyPipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {InputNumberModule} from "primeng/inputnumber";
@@ -21,7 +21,6 @@ import {DespesaService} from "../../services/despesa/despesa.service";
 import {map, tap} from "rxjs";
 import {TipoDespesaModel} from "../tipo-despesa/tipo-despesa.model";
 import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.service";
-import {TipoDespesaComponent} from "../tipo-despesa/tipo-despesa.component";
 
 @Component({
   selector: 'app-despesa',
@@ -43,7 +42,8 @@ import {TipoDespesaComponent} from "../tipo-despesa/tipo-despesa.component";
     ToastModule,
     ToolbarModule,
     CalendarModule,
-    FloatLabelModule
+    FloatLabelModule,
+    DatePipe
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './despesa.component.html',
@@ -56,8 +56,6 @@ export class DespesaComponent {
   selectedTipoDespesa!: TipoDespesaModel;
   tipoDespesa!: TipoDespesaModel[];
 
-  idDespesa!: number;
-
   despesaDialog = false;
   submitted = false;
 
@@ -65,17 +63,30 @@ export class DespesaComponent {
     private messageService: MessageService,
     private sharedService: SharedService,
     private despesaService: DespesaService,
-    private tipoDespesaService: TipoDespesaService
+    private tipoDespesaService: TipoDespesaService,
+    private confirmationService: ConfirmationService
   ) {
     this.buscarDespesa();
   }
 
   public buscarDespesa() {
+    this.buscaTipoDespesa();
+
     const idUsuario = this.sharedService.getIdUsuario();
 
     this.despesaService.buscaDespesaPorIdUsuario(idUsuario as unknown as number)
       .pipe(
-
+        map(res => {
+          this.despesas = res.map((item: DespesaModel) => ({
+            id: item.id,
+            observacao: item.observacao,
+            data: item.data,
+            valor: item.valor,
+            idUsuario: item.idUsuario,
+            idTipoDespesa: item.idTipoDespesa,
+            tipoDespesaNome: this.getTipoDespesaNome(item.idTipoDespesa)
+          }))
+        })
       )
       .subscribe();
   }
@@ -86,15 +97,18 @@ export class DespesaComponent {
     this.tipoDespesaService.buscarTipoDespesaPorIdUsuario(idUsuario as unknown as number)
       .pipe(
         map(res => {
-          console.log(res)
-          this.tipoDespesa = res.map((item: TipoDespesaModel)=> ({
-            id: item.id,
-            tipoDespesa: item.tipoDespesa,
-            limite: item.limite,
-            ativo: item.ativo,
-            idUsuario: item.idUsuario,
-            valorLimite: item.valorLimite
-          }))
+          this.tipoDespesa = Array.isArray(res)
+            ? res
+              .filter((item: TipoDespesaModel) => item.ativo)
+              .map((item: TipoDespesaModel) => ({
+                id: item.id,
+                tipoDespesa: item.tipoDespesa,
+                limite: item.limite,
+                ativo: item.ativo,
+                idUsuario: item.idUsuario,
+                valorLimite: item.valorLimite
+              }))
+            : [];
         })
       )
       .subscribe();
@@ -108,6 +122,7 @@ export class DespesaComponent {
     this.despesa = {
       id: 0,
       observacao: '',
+      tipoDespesaNome: '',
       idTipoDespesa: 0,
       valor: 0,
       data: new Date(),
@@ -120,8 +135,17 @@ export class DespesaComponent {
 
     if (this.despesa.observacao.trim()) {
 
+      this.despesa = {
+        id: this.despesa.id,
+        observacao: this.despesa.observacao,
+        tipoDespesaNome: '',
+        idTipoDespesa: this.selectedTipoDespesa.id,
+        valor: this.despesa.valor,
+        idUsuario: this.despesa.idUsuario,
+        data: this.despesa.data
+      }
+
       if (this.despesa.id === 0) {
-        console.log(this.despesa)
         this.despesaService.saveDespesa(this.despesa)
           .pipe(
             tap(() => {
@@ -149,6 +173,7 @@ export class DespesaComponent {
     this.despesa = {
       id: 0,
       observacao: '',
+      tipoDespesaNome: '',
       idTipoDespesa: 0,
       valor: 0,
       data: new Date(),
@@ -156,13 +181,38 @@ export class DespesaComponent {
     }
   }
 
-  deletaDespesa(id: number) {
-    this.idDespesa = id;
-    this.despesaDialog = true;
+  deletaDespesa(id: number, event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Você tem certeza que deseja excluir essa Despesa?',
+      header: 'Confirmação de Exclusão',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass:"p-button-danger p-button-text",
+      rejectButtonStyleClass:"p-button-text p-button-text",
+      acceptIcon:"none",
+      rejectIcon:"none",
+
+      accept: () => {
+        this.despesaService.excluiDespesa(id)
+          .pipe(
+            tap(() => {
+              this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Despesa deletado com Sucesso!' });
+              this.buscarDespesa()
+            })
+          )
+          .subscribe()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'Você cancelou a ação.' });
+      }
+    });
   }
 
   editarDespesa(despesa: DespesaModel) {
-    this.despesa = { ...despesa };
+    this.despesa = {
+      ...despesa,
+      data: new Date(despesa.data) // Converte a data para um objeto Date
+    };
     this.despesaDialog = true;
   }
 
@@ -171,16 +221,8 @@ export class DespesaComponent {
     this.submitted = false;
   }
 
-  public getTipoDespesa(idTipoDespesa: number): string {
-    this.tipoDespesaService.buscaTipoDespesaPorId(idTipoDespesa)
-      .pipe(
-        tap(res => {
-          this.selectedTipoDespesa.tipoDespesa = res.tipoDespesas;
-        }),
-      )
-    .subscribe()
-
-    return this.selectedTipoDespesa.tipoDespesa;
+  public getTipoDespesaNome(idTipoDespesa: number): string {
+    const tipo = this.tipoDespesa.find(td => td.id === idTipoDespesa);
+    return tipo ? tipo.tipoDespesa : 'Desconhecido';
   }
-
 }

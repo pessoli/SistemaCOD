@@ -51,13 +51,13 @@
           {{ despesa.observacao }}
         </td>
         <td>
-          {{ despesa.data }}
+          {{ despesa.data | date: 'dd/MM/yyyy' }}
         </td>
         <td>
           {{ despesa.valor | currency : 'BRL' }}
         </td>
         <td>
-          {{ getTipoDespesa(despesa.idTipoDespesa) }}
+          {{ despesa.tipoDespesaNome }}
         </td>
         <td>
           <p-button
@@ -74,7 +74,7 @@
             [rounded]="true"
             [outlined]="true"
             severity="danger"
-            (onClick)="deletaDespesa(despesa.id)">
+            (onClick)="deletaDespesa(despesa.id, $event)">
           </p-button>
         </td>
       </tr>
@@ -102,9 +102,9 @@
           [(ngModel)]="despesa.observacao"
           required
           autofocus />
-<!--        <small class="p-error" *ngIf="submitted && !tipoDespesa.tipoDespesa">-->
-<!--          Name is required.-->
-<!--        </small>-->
+        <small class="p-error" *ngIf="submitted && !despesa.observacao">
+          Nome é obrigatório.
+        </small>
       </div>
 
       <div class="field">
@@ -114,6 +114,9 @@
           [(ngModel)]="selectedTipoDespesa"
           optionLabel="tipoDespesa"
           inputId="tipoDespesa" />
+        <small class="p-error" *ngIf="submitted && !selectedTipoDespesa">
+          Tipo Despesa é obrigatório.
+        </small>
       </div>
 
       <div class="formgrid grid">
@@ -125,6 +128,9 @@
             mode="currency"
             currency="BRL"
             locale="pt-BR" />
+          <small class="p-error" *ngIf="submitted && !despesa.valor">
+            Valor é obrigatório.
+          </small>
         </div>
         <div class="field col">
             <label for="data">Data</label>
@@ -152,5 +158,4 @@
   </p-dialog>
 
   <p-confirmDialog [style]="{ width: '450px' }" />
-
 </div>
