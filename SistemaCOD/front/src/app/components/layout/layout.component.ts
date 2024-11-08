@@ -5,25 +5,29 @@ import {MenuItem, MenuItemCommandEvent, Message, PrimeIcons} from "primeng/api";
 import {MessageSharedService} from "../../services/message/messageShared.service";
 import {SharedService} from "../../services/shared/shared.service";
 import {Router} from "@angular/router";
+import {MessagesModule} from "primeng/messages";
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [
-    MenuModule,
-    NgClass
-  ],
+    imports: [
+        MenuModule,
+        NgClass,
+        MessagesModule
+    ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent implements OnInit {
   acessosTela?: MenuItem[]
   botaoSair?: MenuItem[]
+  messages: Message[] = []
 
 
   constructor(
     private sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private messageSharedService: MessageSharedService,
   ) {
   }
 
@@ -75,6 +79,13 @@ export class LayoutComponent implements OnInit {
         command: () => this.logout()
       },
     ]
+
+    this.messageSharedService.exibeMensagemLimite();
+
+    // Se houver mensagens, recebe as atualizações do serviço
+    this.messageSharedService.currentMessage.subscribe(messages => {
+      this.messages = messages || [];
+    });
   }
 
   public logout() {

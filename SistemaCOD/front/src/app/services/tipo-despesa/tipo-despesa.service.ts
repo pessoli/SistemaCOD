@@ -28,4 +28,8 @@ export class TipoDespesaService {
   atualizaTipoDespesa(tipoDespesa: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/tipo_despesa/atualizaTipoDespesa`, tipoDespesa);
   }
+
+  tipoDespesaLimiteUltrapassado(idUsuario: number, valor: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/despesas/tipoDespesaLimiteUltrapassado?idUsuario=${idUsuario}&valor=${valor}`);
+  }
 }

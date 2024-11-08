@@ -145,6 +145,14 @@ export class DespesaComponent {
         data: this.despesa.data
       }
 
+      this.tipoDespesaService.tipoDespesaLimiteUltrapassado(this.despesa.idUsuario, this.despesa.valor)
+        .pipe(
+          tap(res => {
+
+          })
+        )
+        .subscribe()
+
       if (this.despesa.id === 0) {
         this.despesaService.saveDespesa(this.despesa)
           .pipe(
