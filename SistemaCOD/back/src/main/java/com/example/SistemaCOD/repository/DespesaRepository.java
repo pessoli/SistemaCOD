@@ -40,26 +40,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
         """
     )
     List<TipoDespesa> findTipoDespesaLimiteUltrapassado(Long idUsuario);
-
-    @Query(
-        """
-            SELECT
-                td
-            FROM
-                Despesa d
-            INNER JOIN
-                TipoDespesa td ON td.id = d.idTipoDespesa
-            WHERE
-                d.idTipoDespesa = :idTipoDespesa
-                and td.limite = 'COM_LIMITE'
-                and td.ativo = true
-            GROUP BY
-                td.id, td.tipoDespesa, td.valorLimite
-            HAVING
-                SUM(d.valor, :valor) > td.valorLimite
-        """
-    )
-    List<TipoDespesa> findTipoDespesaLimiteUltrapassadoComValor(Long idTipoDespesa);
 }
 
 

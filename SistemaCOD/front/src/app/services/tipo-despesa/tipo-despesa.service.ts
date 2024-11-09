@@ -29,7 +29,11 @@ export class TipoDespesaService {
     return this.http.put(`${this.baseUrl}/tipo_despesa/atualizaTipoDespesa`, tipoDespesa);
   }
 
-  tipoDespesaLimiteUltrapassado(idUsuario: number, valor: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/despesas/tipoDespesaLimiteUltrapassado?idUsuario=${idUsuario}&valor=${valor}`);
+  tipoDespesaLimiteUltrapassado(idUsuario: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/despesas/tipoDespesaLimiteUltrapassado?idUsuario=${idUsuario}`);
+  }
+
+  isTipoDespesaLimiteUltrapassado(idTipoDespesa: number, valor: number, idDespesa: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/despesas/isTipoDespesaLimiteUltrapassado?idTipoDespesa=${idTipoDespesa}&valor=${valor}&idDespesa=${idDespesa}`)
   }
 }

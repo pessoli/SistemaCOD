@@ -18,7 +18,7 @@ import {FloatLabelModule} from "primeng/floatlabel";
 import {DespesaModel} from "./despesa.model";
 import {SharedService} from "../../services/shared/shared.service";
 import {DespesaService} from "../../services/despesa/despesa.service";
-import {map, tap} from "rxjs";
+import {map, switchMap, tap} from "rxjs";
 import {TipoDespesaModel} from "../tipo-despesa/tipo-despesa.model";
 import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.service";
 
@@ -54,10 +54,12 @@ export class DespesaComponent {
   despesa!: DespesaModel;
 
   selectedTipoDespesa!: TipoDespesaModel;
-  tipoDespesa!: TipoDespesaModel[];
+  tipoDespesa: TipoDespesaModel[] = [];
 
   despesaDialog = false;
   submitted = false;
+
+  ultrapassouLimiteDialog = false;
 
   constructor(
     private messageService: MessageService,
@@ -74,7 +76,23 @@ export class DespesaComponent {
 
     const idUsuario = this.sharedService.getIdUsuario();
 
-    this.despesaService.buscaDespesaPorIdUsuario(idUsuario as unknown as number)
+    this.tipoDespesaService.buscarTipoDespesaPorIdUsuario(idUsuario as unknown as number)
+      .pipe(
+        map(res => {
+          this.tipoDespesa = Array.isArray(res)
+            ? res.filter((item: TipoDespesaModel) => item.ativo)
+              .map((item: TipoDespesaModel) => ({
+                id: item.id,
+                tipoDespesa: item.tipoDespesa,
+                limite: item.limite,
+                ativo: item.ativo,
+                idUsuario: item.idUsuario,
+                valorLimite: item.valorLimite
+              }))
+            : [];
+        }),
+        switchMap(() => this.despesaService.buscaDespesaPorIdUsuario(idUsuario as unknown as number)) // Espera o tipoDespesa carregar
+      )
       .pipe(
         map(res => {
           this.despesas = res.map((item: DespesaModel) => ({
@@ -85,11 +103,12 @@ export class DespesaComponent {
             idUsuario: item.idUsuario,
             idTipoDespesa: item.idTipoDespesa,
             tipoDespesaNome: this.getTipoDespesaNome(item.idTipoDespesa)
-          }))
+          }));
         })
       )
       .subscribe();
   }
+
 
   public buscaTipoDespesa() {
     const idUsuario = this.sharedService.getIdUsuario();
@@ -130,52 +149,57 @@ export class DespesaComponent {
     }
   }
 
-  salvarDespesa() {
+  salvarOrAtualizaDespesa() {
     this.submitted = true;
 
-    if (this.despesa.observacao.trim()) {
+    // Armazenando valores atuais em variáveis temporárias
+    const observacaoAtual = this.despesa.observacao;
+    const valorAtual = this.despesa.valor;
+    const idDespesa = this.despesa.id;
+    const idTipoDespesa = this.selectedTipoDespesa.id;
 
-      this.despesa = {
-        id: this.despesa.id,
-        observacao: this.despesa.observacao,
-        tipoDespesaNome: '',
-        idTipoDespesa: this.selectedTipoDespesa.id,
-        valor: this.despesa.valor,
-        idUsuario: this.despesa.idUsuario,
-        data: this.despesa.data
-      }
+    if (observacaoAtual.trim() && valorAtual) {
 
-      this.tipoDespesaService.tipoDespesaLimiteUltrapassado(this.despesa.idUsuario, this.despesa.valor)
+      this.tipoDespesaService.isTipoDespesaLimiteUltrapassado(idTipoDespesa, valorAtual, idDespesa)
         .pipe(
           tap(res => {
 
+            this.despesa = {
+              ...this.despesa,
+              id: idDespesa,
+              observacao: observacaoAtual,
+              valor: valorAtual,
+              tipoDespesaNome: '',
+              idTipoDespesa: idTipoDespesa
+            };
+
+            if (res) {
+              this.ultrapassouLimiteDialog = true;
+            }
+
+            if (this.despesa.id === 0) {
+              this.despesaService.saveDespesa(this.despesa)
+                .pipe(
+                  tap(() => {
+                    this.buscarDespesa();
+                  })
+                )
+                .subscribe();
+              this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Despesa criada com Sucesso!', life: 3000 });
+            } else {
+              this.despesaService.atualizaDespesa(this.despesa)
+                .pipe(
+                  tap(() => {
+                    this.buscarDespesa();
+                  })
+                )
+                .subscribe();
+              this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Despesa atualizada com Sucesso!', life: 3000 });
+            }
           })
         )
-        .subscribe()
-
-      if (this.despesa.id === 0) {
-        this.despesaService.saveDespesa(this.despesa)
-          .pipe(
-            tap(() => {
-              this.buscarDespesa();
-            })
-          )
-          .subscribe()
-
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Despesa criada com Sucesso!', life: 3000 });
-      } else {
-        this.despesaService.atualizaDespesa(this.despesa)
-          .pipe(
-            tap(() => {
-              this.buscarDespesa()
-            })
-          )
-          .subscribe()
-
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Despesa atualizada com Sucesso!', life: 3000 });
-      }
+        .subscribe();
     }
-
 
     this.despesaDialog = false;
     this.despesa = {
@@ -186,8 +210,9 @@ export class DespesaComponent {
       valor: 0,
       data: new Date(),
       idUsuario: this.sharedService.getIdUsuario() as unknown as number
-    }
+    };
   }
+
 
   deletaDespesa(id: number, event: Event) {
     this.confirmationService.confirm({
@@ -230,7 +255,10 @@ export class DespesaComponent {
   }
 
   public getTipoDespesaNome(idTipoDespesa: number): string {
-    const tipo = this.tipoDespesa.find(td => td.id === idTipoDespesa);
-    return tipo ? tipo.tipoDespesa : 'Desconhecido';
+    if (this.tipoDespesa && this.tipoDespesa.length > 0) {
+      const tipo = this.tipoDespesa.find(td => td.id === idTipoDespesa);
+      return tipo ? tipo.tipoDespesa : 'Desconhecido';
+    }
+    return 'Desconhecido';
   }
 }

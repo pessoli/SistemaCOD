@@ -1,10 +1,10 @@
-import {Component, LOCALE_ID, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {MenuItem, Message, PrimeIcons} from 'primeng/api';
+import {Router} from '@angular/router';
+import { SharedService } from '../../services/shared/shared.service';
+import { MessageSharedService } from '../../services/message/messageShared.service';
 import {MenuModule} from "primeng/menu";
 import {NgClass} from "@angular/common";
-import {MenuItem, MenuItemCommandEvent, Message, PrimeIcons} from "primeng/api";
-import {MessageSharedService} from "../../services/message/messageShared.service";
-import {SharedService} from "../../services/shared/shared.service";
-import {Router} from "@angular/router";
 import {MessagesModule} from "primeng/messages";
 
 @Component({
@@ -27,11 +27,10 @@ export class LayoutComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private router: Router,
-    private messageSharedService: MessageSharedService,
-  ) {
-  }
+    private messageSharedService: MessageSharedService
+  ) {}
 
-  public ngOnInit() {
+  ngOnInit() {
     const idUsuario = this.sharedService.getIdUsuario();
 
     this.acessosTela = [

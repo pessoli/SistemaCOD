@@ -5,6 +5,7 @@ import com.example.SistemaCOD.model.Conta;
 import com.example.SistemaCOD.model.Despesa;
 import com.example.SistemaCOD.model.TipoDespesa;
 import com.example.SistemaCOD.repository.DespesaRepository;
+import com.example.SistemaCOD.repository.TipoDespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class DespesaService {
 
     @Autowired
     public DespesaRepository despesaRepository;
+
+    @Autowired
+    public TipoDespesaRepository tipoDespesaRepository;
 
     public List<Despesa> buscarDespesaPorUsuarioId(Long idUsuario){
         return despesaRepository.findByDespesaPorUsuarioId(idUsuario);
@@ -40,5 +44,9 @@ public class DespesaService {
 
     public List<TipoDespesa> buscarTipoDespesaLimiteUltrapassado(Long idUsuario) {
         return this.despesaRepository.findTipoDespesaLimiteUltrapassado(idUsuario);
+    }
+
+    public Boolean isTipoDespesaLimiteUltrapassado(Long idTipoDespesa, double valor, Long idDespesa) {
+        return this.tipoDespesaRepository.isTipoDespesaLimiteUltrapassado(idTipoDespesa, valor, idDespesa);
     }
 }

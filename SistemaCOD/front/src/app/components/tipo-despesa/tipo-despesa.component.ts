@@ -78,7 +78,6 @@ export class TipoDespesaComponent {
     this.tipoDespesaService.buscarTipoDespesaPorIdUsuario(idUsuario as unknown as number)
       .pipe(
         map(res => {
-          console.log(res)
           this.tipoDespesas = res.map((item: TipoDespesaModel) => ({
             id: item.id,
             tipoDespesa: item.tipoDespesa,

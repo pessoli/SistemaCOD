@@ -32,10 +32,7 @@ public class TipoDespesaService {
             novoTipoDespesa.setTipoDespesa(tipoDespesa.getTipoDespesa());
         }
 
-        if (tipoDespesa.getValorLimite() == 0.0) {
-            novoTipoDespesa.setValorLimite(tipoDespesa.getValorLimite());
-        }
-
+        novoTipoDespesa.setValorLimite(tipoDespesa.getValorLimite());
         novoTipoDespesa.setLimite(tipoDespesa.getLimite());
         novoTipoDespesa.setAtivo(tipoDespesa.isAtivo());
 

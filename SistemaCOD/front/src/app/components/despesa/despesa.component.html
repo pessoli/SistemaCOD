@@ -153,9 +153,29 @@
         label="Save"
         icon="pi pi-check"
         [text]="true"
-        (onClick)="salvarDespesa()" />
+        (onClick)="salvarOrAtualizaDespesa()" />
     </ng-template>
   </p-dialog>
 
   <p-confirmDialog [style]="{ width: '450px' }" />
+
+  <p-dialog
+    [(visible)]="ultrapassouLimiteDialog"
+    [style]="{ width: '350px', textAlign: 'center' }"
+    header="Limite Ultrapassado"
+    modal="true"
+    [closable]="false"
+  >
+    <p style="margin: 1rem 0;">O valor limite para esse Tipo Despesa foi ultrapassado!</p>
+
+    <p-footer>
+      <div style="display: flex; justify-content: center;">
+        <p-button
+          label="OK"
+          (onClick)="ultrapassouLimiteDialog = false"
+          class="p-button-text p-button-danger"
+        ></p-button>
+      </div>
+    </p-footer>
+  </p-dialog>
 </div>

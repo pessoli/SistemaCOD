@@ -22,7 +22,7 @@ export class MessageSharedService {
     const idUsuario = this.sharedService.getIdUsuario();
 
     // Requisição para verificar os limites de despesa
-    this.tipoDespesaService.tipoDespesaLimiteUltrapassado(idUsuario as unknown as number, 0)
+    this.tipoDespesaService.tipoDespesaLimiteUltrapassado(idUsuario as unknown as number)
       .pipe(
         tap(res => {
           // Se houver tipo de despesa com limite ultrapassado, gera uma mensagem para cada tipo
