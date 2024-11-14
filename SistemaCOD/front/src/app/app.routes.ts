@@ -8,6 +8,8 @@ import {TipoDespesaComponent} from "./components/tipo-despesa/tipo-despesa.compo
 import {FinanciamentoComponent} from "./components/financiamento/financiamento.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {DespesaComponent} from "./components/despesa/despesa.component";
+import {DicaFinanceiraComponent} from "./components/dica-financeira/dica-financeira.component";
+import {RelatorioComponent} from "./components/relatorio/relatorio.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,6 +26,8 @@ export const routes: Routes = [
       { path: 'tipo-despesa/:idUsuario', component: TipoDespesaComponent },
       { path: 'financiamento/:idUsuario', component: FinanciamentoComponent },
       { path: 'despesa/:idUsuario', component: DespesaComponent },
+      { path: 'educacao-financeira', component: DicaFinanceiraComponent },
+      { path: 'relatorio/:idUsuario', component: RelatorioComponent }
       // ...
     ]
   },

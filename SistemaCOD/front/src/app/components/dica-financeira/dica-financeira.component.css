@@ -1,0 +1,14 @@
+.p-toolbar {
+  background-color: #4CAF50;
+  color: white;
+  height: 50px;
+  margin-bottom: 20px; /* Espaçamento da toolbar para o conteúdo abaixo */
+}
+
+.card {
+  padding-top: 20px; /* Adiciona espaço extra no conteúdo abaixo */
+}
+
+.espacamento {
+  margin-top: 20px;
+}

@@ -38,7 +38,7 @@ public interface TipoDespesaRepository extends JpaRepository<TipoDespesa, Long> 
                     AND td.limite = 'COM_LIMITE'
                     AND td.ativo = true
                 GROUP BY
-                    td.id
+                    td.id, dAtual.valor
             """
     )
     Boolean isTipoDespesaLimiteUltrapassado(Long idTipoDespesa, double novoValor, Long idDespesa);

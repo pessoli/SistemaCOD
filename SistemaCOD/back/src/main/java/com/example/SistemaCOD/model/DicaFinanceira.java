@@ -21,4 +21,8 @@ public class DicaFinanceira {
 
     @Column
     private boolean ativo;
+
+    @Lob
+    @Column
+    private byte[] imagem;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DespesaModel} from "../../components/despesa/despesa.model";
 
@@ -27,5 +27,29 @@ export class DespesaService {
 
   excluiDespesa(idDespesa: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/despesas?id=${idDespesa}`);
+  }
+
+  exportarRelatorio(
+    idUsuario: number,
+    geraExcel: boolean,
+    dataInicio: string,  // Você pode usar 'string' para as datas ou 'Date' se necessário
+    dataFim: string,
+    idTipoDespesa: number[] | null
+  ): Observable<Blob> {
+    let params = new HttpParams()
+      .set('idUsuario', idUsuario.toString())
+      .set('geraExcel', geraExcel.toString())
+      .set('dataInicio', dataInicio)
+      .set('dataFim', dataFim);
+
+    // Se idTipoDespesa não for nulo, adicionamos ao parâmetro
+    if (idTipoDespesa && idTipoDespesa.length > 0) {
+      params = params.set('idTipoDespesa', idTipoDespesa.join(','));
+    }
+
+    return this.http.get(`${this.baseUrl}/despesas/exportarRelatorio`, {
+      params: params,
+      responseType: 'blob'
+    });
   }
 }

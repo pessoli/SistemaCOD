@@ -1,0 +1,27 @@
+<div>
+  <p-toolbar>
+    <div class="p-toolbar-group-left">
+      <span class="p-toolbar-title">Educação Financeira</span>
+    </div>
+  </p-toolbar>
+</div>
+
+<div class="card espacamento">
+  <p-accordion [activeIndex]="0">
+    <p-accordionTab *ngFor="let tab of getDicasPorPagina()" [header]="tab.titulo">
+      <p class="m-0">
+        <!-- Exibe a imagem associada à dica -->
+        <a [href]="tab.linkVideo" target="_blank">
+          <img *ngIf="tab.id" [src]="getImagemUrl(tab.id)" alt="Imagem da dica" class="img-fluid" />
+        </a>
+      </p>
+    </p-accordionTab>
+  </p-accordion>
+
+  <p-paginator
+    [rows]="10"
+    [totalRecords]="dicaFinanceira.length"
+    [first]="primeiroItem"
+    (onPageChange)="onPaginaMudou($event)">
+  </p-paginator>
+</div>

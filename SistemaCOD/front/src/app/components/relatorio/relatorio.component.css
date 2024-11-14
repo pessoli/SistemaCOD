@@ -1,0 +1,22 @@
+.field {
+  margin-bottom: 1rem; /* Ajuste o valor conforme necessário */
+}
+
+.field-button {
+  margin-right: 1rem;
+  width: 20%;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.p-toolbar {
+  background-color: #4CAF50;
+  color: white;
+  height: 50px;
+}
+
+.espacamento {
+  margin-top: 20px;
+}

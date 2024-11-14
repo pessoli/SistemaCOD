@@ -138,7 +138,9 @@
               [(ngModel)]="despesa.data"
               [readonlyInput]="true"
               inputId="data"
-              appendTo="body"/>
+              appendTo="body"
+              [dateFormat]=" 'dd/mm/yy' "
+            />
         </div>
       </div>
     </ng-template>

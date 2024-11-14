@@ -1,0 +1,35 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <span class="p-toolbar-title">Relatório</span>
+  </div>
+</p-toolbar>
+
+<div class="p-fluid grid gap-3 espacamento">
+  <div class="field col-12 md:col-4">
+    <span class="p-float-label">
+      <p-calendar
+        id="rangeDates"
+        [(ngModel)]="rangeDates"
+        selectionMode="range"
+        [readonlyInput]="true"
+        [dateFormat]=" 'dd/mm/yy' "
+      >
+      </p-calendar>
+      <label for="rangeDates">Selecione o Período</label>
+    </span>
+  </div>
+  <div class="field col-12 md:col-4">
+    <p-multiSelect
+      id="tipoDespesa"
+      [options]="tipoDespesa"
+      [(ngModel)]="selectedTipoDespesa"
+      optionLabel="tipoDespesa"
+      placeholder="Tipo Despesa">
+    </p-multiSelect>
+  </div>
+
+  <div class="field col-12 md:col-4 text-right">
+    <button pButton type="button" label="Exportar em XLSX" icon="pi pi-check" class="p-button-success mr-2 field-button" (click)="geraExcel = true; exportar()"></button>
+    <button pButton type="button" label="Exportar em PDF" icon="pi pi-check" class="p-button-info field-button" (click)="geraExcel = false; exportar()"></button>
+  </div>
+</div>

@@ -67,7 +67,7 @@ export class LayoutComponent implements OnInit {
       {
         label: 'Relatório',
         icon: 'pi pi-chart-line',
-        routerLink: ['/relatorio']
+        routerLink: [`/relatorio/${idUsuario}`]
       },
     ];
 
