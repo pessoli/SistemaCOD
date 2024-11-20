@@ -1,68 +1,10 @@
-.layout-wrapper {
-  display: flex;
-  height: 100vh;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #f4f4f4;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.logo img {
-  width: 220px;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
-
-.page-content {
-  margin-top: 20px;
-}
-
-/* Tornar o p-menu responsivo e ocupar o espaço total */
-p-menu {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
-
-.ui-menuitem {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  flex-grow: 1;  /* Para garantir que o item ocupe espaço proporcional */
-}
-
-.ui-menuitem-icon {
-  margin-right: 10px;
-}
-
-.ui-menuitem-text {
-  font-size: 16px;
+.logo {
+  width: 150px;
 }
 
 .menu-container {
   display: flex;
   flex-direction: column;
   height: 100vh; /* Faz o container ocupar toda a altura da tela */
-}
-
-.spacer {
-  flex: 6; /* Esta div ocupa o espaço restante */
-}
-
-:host {
-  display: block;
-  height: calc(100vh); /* Ajuste conforme necessário */
-  overflow-y: auto; /* Permite scroll apenas neste componente */
 }
 

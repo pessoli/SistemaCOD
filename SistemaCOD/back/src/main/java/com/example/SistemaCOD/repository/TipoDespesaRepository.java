@@ -1,5 +1,7 @@
 package com.example.SistemaCOD.repository;
 
+import com.example.SistemaCOD.model.DespesaLimiteChartDTO;
+import com.example.SistemaCOD.model.DespesaSomaChartDTO;
 import com.example.SistemaCOD.model.TipoDespesa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +45,56 @@ public interface TipoDespesaRepository extends JpaRepository<TipoDespesa, Long> 
     )
     Boolean isTipoDespesaLimiteUltrapassado(Long idTipoDespesa, double novoValor, Long idDespesa);
 
+
+    @Query(
+            """
+                SELECT new com.example.SistemaCOD.model.DespesaLimiteChartDTO(
+                    td.tipoDespesa,
+                    TO_CHAR(d.data, 'YYYY-MM'),
+                    COALESCE(SUM(d.valor), 0),
+                    td.valorLimite,
+                    CASE
+                        WHEN COALESCE(SUM(d.valor), 0) > td.valorLimite THEN 'LIMITE_ULTRAPASSADO'
+                        ELSE 'DENTRO_DO_LIMITE'
+                    END
+                )
+                FROM
+                    TipoDespesa td
+                LEFT JOIN
+                    Despesa d
+                    ON td.id = d.idTipoDespesa
+                    AND d.idUsuario = :idUsuario
+                    AND TO_CHAR(d.data, 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')
+                WHERE
+                    td.idUsuario = :idUsuario
+                    AND td.ativo = true
+                    AND td.limite = 'COM_LIMITE'
+                GROUP BY
+                    td.tipoDespesa, td.valorLimite, TO_CHAR(d.data, 'YYYY-MM')
+            """
+    )
+    List<DespesaLimiteChartDTO> chartTipoDespesaSomaLimitePorMes(Long idUsuario);
+
+
+    @Query(
+        """
+            SELECT new com.example.SistemaCOD.model.DespesaSomaChartDTO(
+                td.tipoDespesa,
+                TO_CHAR(d.data, 'YYYY-MM'),
+                COALESCE(SUM(d.valor), 0)
+            )
+            FROM
+                TipoDespesa td
+            LEFT JOIN
+                Despesa d
+                ON td.id = d.idTipoDespesa
+                AND d.idUsuario = :idUsuario
+            WHERE
+                td.idUsuario = :idUsuario
+                AND td.ativo = true
+            GROUP BY
+                td.tipoDespesa, TO_CHAR(d.data, 'YYYY-MM')
+        """
+    )
+    List<DespesaSomaChartDTO> chartTipoDespesaSomaMes(Long idUsuario);
 }

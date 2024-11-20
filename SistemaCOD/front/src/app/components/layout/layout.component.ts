@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MenuItem, Message, PrimeIcons} from 'primeng/api';
 import {Router} from '@angular/router';
 import { SharedService } from '../../services/shared/shared.service';
 import { MessageSharedService } from '../../services/message/messageShared.service';
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {Sidebar, SidebarModule} from "primeng/sidebar";
+import {StyleClassModule} from "primeng/styleclass";
 import {MenuModule} from "primeng/menu";
-import {NgClass} from "@angular/common";
-import {MessagesModule} from "primeng/messages";
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-    imports: [
-        MenuModule,
-        NgClass,
-        MessagesModule
-    ],
+  imports: [
+    SidebarModule, ButtonModule, RippleModule, StyleClassModule, MenuModule
+  ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
@@ -23,12 +23,21 @@ export class LayoutComponent implements OnInit {
   botaoSair?: MenuItem[]
   messages: Message[] = []
 
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+
+  closeCallback(e: Event): void {
+    this.sidebarRef.close(e);
+  }
+
+  sidebarVisible: boolean = false;
+
 
   constructor(
     private sharedService: SharedService,
     private router: Router,
     private messageSharedService: MessageSharedService
   ) {}
+
 
   ngOnInit() {
     const idUsuario = this.sharedService.getIdUsuario();

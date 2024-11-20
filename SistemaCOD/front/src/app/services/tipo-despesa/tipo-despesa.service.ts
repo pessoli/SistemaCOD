@@ -36,4 +36,12 @@ export class TipoDespesaService {
   isTipoDespesaLimiteUltrapassado(idTipoDespesa: number, valor: number, idDespesa: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/despesas/isTipoDespesaLimiteUltrapassado?idTipoDespesa=${idTipoDespesa}&valor=${valor}&idDespesa=${idDespesa}`)
   }
+
+  chartTipoDespesa(idUsuario: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/tipo_despesa/chartTipoDespesa?idUsuario=${idUsuario}`);
+  }
+
+  chartTipoDespesaSomaMes(idUsuario: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/tipo_despesa/chartTipoDespesaSoma?idUsuario=${idUsuario}`);
+  }
 }

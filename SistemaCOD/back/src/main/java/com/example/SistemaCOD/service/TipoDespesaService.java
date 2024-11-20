@@ -1,5 +1,7 @@
 package com.example.SistemaCOD.service;
 
+import com.example.SistemaCOD.model.DespesaLimiteChartDTO;
+import com.example.SistemaCOD.model.DespesaSomaChartDTO;
 import com.example.SistemaCOD.model.TipoDespesa;
 import com.example.SistemaCOD.repository.TipoDespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,13 @@ public class TipoDespesaService {
         novoTipoDespesa.setAtivo(tipoDespesa.isAtivo());
 
         return tipoDespesaRepository.save(novoTipoDespesa);
+    }
+
+    public List<DespesaLimiteChartDTO> chartTipoDespesaSomaLimitePorMes(Long idUsuario) {
+        return tipoDespesaRepository.chartTipoDespesaSomaLimitePorMes(idUsuario);
+    }
+
+    public List<DespesaSomaChartDTO> chartTipoDespesaSomaMes(Long idUsuario) {
+        return tipoDespesaRepository.chartTipoDespesaSomaMes(idUsuario);
     }
 }

@@ -7,8 +7,12 @@
       [enableService]="false"
     ></p-messages>
 
-    <!-- Aqui vai o conteúdo dinâmico da página -->
-    <div class="page-content">
-      <!-- Conteúdo a ser inserido -->
-    </div>
+
+  <div class="card">
+    <p-chart type="bar" [data]="data" [options]="options" style="height: 400px;"></p-chart>
+  </div>
+
+  <div class="card">
+    <p-chart type="bar" [data]="dataSomaDespesa" [options]="optionsSomaDespesa" />
+  </div>
 </div>
