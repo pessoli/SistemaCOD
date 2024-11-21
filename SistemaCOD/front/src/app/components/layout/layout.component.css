@@ -8,3 +8,12 @@
   height: 100vh; /* Faz o container ocupar toda a altura da tela */
 }
 
+.menu {
+  align-self: center;
+  padding-bottom: 100%;
+}
+
+.menu-entrada {
+  padding-top: 35%;
+}
+
