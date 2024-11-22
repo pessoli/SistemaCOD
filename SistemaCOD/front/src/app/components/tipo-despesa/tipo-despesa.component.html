@@ -1,6 +1,7 @@
 <div class="card">
   <p-toast />
   <p-toolbar styleClass="mb-4 gap-2">
+    <span class="p-toolbar-title">Tipo Despesa</span>
     <ng-template pTemplate="left">
       <p-button
         severity="success"
@@ -23,11 +24,6 @@
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
     [showCurrentPageReport]="true"
   >
-    <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
-        <h5 class="m-0">Tipo Despesa</h5>
-      </div>
-    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="nome" style="min-width:15rem">

@@ -8,16 +8,20 @@ import {ChartModule} from "primeng/chart";
 import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.service";
 import {SharedService} from "../../services/shared/shared.service";
 import {tap} from "rxjs";
+import {Button} from "primeng/button";
+import {ToolbarModule} from "primeng/toolbar";
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    MessagesModule,
-    MenuModule,
-    NgStyle,
-    NgClass,
-    ChartModule
-  ],
+    imports: [
+        MessagesModule,
+        MenuModule,
+        NgStyle,
+        NgClass,
+        ChartModule,
+        Button,
+        ToolbarModule
+    ],
   providers: [CurrencyPipe, DatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

@@ -121,15 +121,12 @@ export class AppComponent implements OnInit {
           // Verificar se a dica já existe no banco antes de salvar
           return this.dicaFinanceiraService.verificarDicaExistente(dica.linkVideo).pipe(
             concatMap(existe => {
-              console.log(existe)
               if (!existe) {
                 // Se a dica não existir, enviar para salvar
                 return this.dicaFinanceiraService.salvarDica(dica, this.imagens[index]).pipe(
-                  tap(() => console.log(`Dica "${dica.titulo}" salva com sucesso!`)),
                   delay(200) // Pequeno atraso para evitar sobrecarga
                 );
               } else {
-                console.log(`Dica "${dica.titulo}" já existe no banco.`);
                 return EMPTY; // Retorna um Observable vazio para não enviar novamente
               }
             })

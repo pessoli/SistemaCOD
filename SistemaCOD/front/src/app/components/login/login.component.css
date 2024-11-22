@@ -5,6 +5,10 @@
   height: 100vh; /* Para centralizar verticalmente */
 }
 
+.logo {
+  width: 310px;
+}
+
 p-card {
   width: 100%;
   max-width: 500px; /* Largura máxima do card */

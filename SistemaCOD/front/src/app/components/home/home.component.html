@@ -1,18 +1,21 @@
-<!-- Conteúdo principal -->
 <div class="main-content">
-    <p-messages
-      [(value)]="messages"
-      [showTransitionOptions]="'500ms'"
-      [hideTransitionOptions]="'500ms'"
-      [enableService]="false"
-    ></p-messages>
+  <p-toolbar styleClass="mb-4 gap-2">
+    <span class="p-toolbar-title">Gráficos</span>
+  </p-toolbar>
+
+  <p-messages
+    [(value)]="messages"
+    [showTransitionOptions]="'500ms'"
+    [hideTransitionOptions]="'500ms'"
+    [enableService]="false"
+  ></p-messages>
 
 
   <div class="card">
-    <p-chart type="bar" [data]="data" [options]="options" style="height: 400px;"></p-chart>
+    <p-chart type="bar" [data]="data" [options]="options" style="height: 100px;"></p-chart>
   </div>
 
   <div class="card">
-    <p-chart type="bar" [data]="dataSomaDespesa" [options]="optionsSomaDespesa" />
+    <p-chart type="bar" [data]="dataSomaDespesa" [options]="optionsSomaDespesa" style="height: 200px;"></p-chart>
   </div>
 </div>
