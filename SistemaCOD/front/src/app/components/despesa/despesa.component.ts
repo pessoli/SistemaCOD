@@ -157,6 +157,8 @@ export class DespesaComponent {
     const valorAtual = this.despesa.valor;
     const idDespesa = this.despesa.id;
     const idTipoDespesa = this.selectedTipoDespesa.id;
+    const dataLocal = new Date(this.despesa.data);
+    dataLocal.setMinutes(dataLocal.getMinutes() - dataLocal.getTimezoneOffset());
 
     if (observacaoAtual.trim() && valorAtual) {
 
@@ -170,6 +172,7 @@ export class DespesaComponent {
               observacao: observacaoAtual,
               valor: valorAtual,
               tipoDespesaNome: '',
+              data: dataLocal,
               idTipoDespesa: idTipoDespesa
             };
 
