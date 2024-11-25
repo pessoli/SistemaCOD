@@ -62,6 +62,9 @@
             [rounded]="true"
             [outlined]="true"
             severity="success"
+            pTooltip="Editar Despesa"
+            tooltipPosition="bottom"
+            tooltipEvent="hover"
             (onClick)="editarDespesa(despesa)">
           </p-button>
           <p-button
@@ -70,6 +73,9 @@
             [rounded]="true"
             [outlined]="true"
             severity="danger"
+            pTooltip="Deletar Despesa"
+            tooltipPosition="bottom"
+            tooltipEvent="hover"
             (onClick)="deletaDespesa(despesa.id, $event)">
           </p-button>
         </td>
@@ -109,7 +115,8 @@
           [options]="tipoDespesa"
           [(ngModel)]="selectedTipoDespesa"
           optionLabel="tipoDespesa"
-          inputId="tipoDespesa" />
+          inputId="tipoDespesa"
+          placeholder="Selecione um tipo de despesa"/>
         <small class="p-error" *ngIf="submitted && !selectedTipoDespesa">
           Tipo Despesa é obrigatório.
         </small>

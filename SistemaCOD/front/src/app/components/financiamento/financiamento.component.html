@@ -92,6 +92,9 @@
             [rounded]="true"
             [outlined]="true"
             severity="success"
+            pTooltip="Editar Financiamento"
+            tooltipPosition="bottom"
+            tooltipEvent="hover"
             (onClick)="editarFinanciamento(financiamento)">
           </p-button>
           <p-button
@@ -100,6 +103,9 @@
             [rounded]="true"
             [outlined]="true"
             severity="info"
+            pTooltip="Pagar Parcela"
+            tooltipPosition="bottom"
+            tooltipEvent="hover"
             (onClick)="pagarParcela(financiamento.id)">
           </p-button>
         </td>

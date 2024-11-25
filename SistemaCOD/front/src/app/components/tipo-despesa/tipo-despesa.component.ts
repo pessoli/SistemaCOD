@@ -22,6 +22,7 @@ import {TipoDespesaModel} from "./tipo-despesa.model";
 import {SharedService} from "../../services/shared/shared.service";
 import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.service";
 import {map, tap} from "rxjs";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-tipo-despesa',
@@ -45,7 +46,8 @@ import {map, tap} from "rxjs";
     InputTextModule,
     FormsModule,
     InputNumberModule,
-    CheckboxModule
+    CheckboxModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './tipo-despesa.component.html',

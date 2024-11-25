@@ -59,7 +59,7 @@ export class LoginComponent {
 
             localStorage.setItem('userId', res.id);
           } else {
-            this.messages = [{ severity: 'error', detail: 'Dados incorretos!'}]
+            this.messages = [{ severity: 'error', detail: 'Dados incorretos!', life: 5000}]
           }
         }),
       )

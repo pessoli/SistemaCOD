@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MenuItem, Message, MessageService, PrimeIcons, PrimeNGConfig} from 'primeng/api';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { SharedService } from '../../services/shared/shared.service';
 import { MessageSharedService } from '../../services/message/messageShared.service';
 import {ButtonModule} from "primeng/button";
@@ -88,9 +88,19 @@ export class LayoutComponent implements OnInit {
       },
     ]
 
-    this.messageSharedService.exibeMensagemLimite();
+    // Atualiza a mensagem sempre que a rota for carregada
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && event.url === '/home') {
+        this.atualizarMensagens();
+      }
+    });
 
-    // Se houver mensagens, recebe as atualizações do serviço
+    // Exibe mensagem inicial
+    this.atualizarMensagens();
+  }
+
+  public atualizarMensagens() {
+    this.messageSharedService.exibeMensagemLimite();
     this.messageSharedService.currentMessage.subscribe(messages => {
       this.messages = messages || [];
     });

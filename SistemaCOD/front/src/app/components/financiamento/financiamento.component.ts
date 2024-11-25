@@ -19,6 +19,7 @@ import {FinanciamentoModel} from "./financiamento.model";
 import {FinanciamentoService} from "../../services/financiamento/financiamento.service";
 import {CalendarModule} from "primeng/calendar";
 import {FloatLabelModule} from "primeng/floatlabel";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-financiamento',
@@ -41,7 +42,8 @@ import {FloatLabelModule} from "primeng/floatlabel";
     ToolbarModule,
     CommonModule,
     CalendarModule,
-    FloatLabelModule
+    FloatLabelModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './financiamento.component.html',

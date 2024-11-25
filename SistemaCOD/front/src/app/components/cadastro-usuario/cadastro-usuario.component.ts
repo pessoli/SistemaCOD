@@ -49,11 +49,14 @@ export class CadastroUsuarioComponent {
     const nome = this.formGroupUsuario.controls['nome'].value;
     const email = this.formGroupUsuario.controls['email'].value;
     const senha = this.formGroupUsuario.controls['senha'].value;
+    const dataNascimento = new Date();
+    dataNascimento.setMinutes(dataNascimento.getMinutes() - dataNascimento.getTimezoneOffset());
 
     this.usuario = {
       nome,
       email,
       senha,
+      dataNascimento,
       ativo: true
     };
 
@@ -63,7 +66,7 @@ export class CadastroUsuarioComponent {
           if (res == null) {
             this.salvarUsuario(this.usuario as CadastroUsuarioModel)
           } else {
-            this.messages = [{ severity: 'error', detail: 'Já existe um Usuário com esse email e senha cadastrado!'}]
+            this.messages = [{ severity: 'error', detail: 'Já existe um Usuário com esse email e senha cadastrado!', life: 5000}]
           }
         })
       )
@@ -75,7 +78,7 @@ export class CadastroUsuarioComponent {
       .pipe(
         tap(() => {
           this.messageService.setMessage([{ severity: 'info', summary: 'Info', detail: 'Usuário cadastrado com sucesso!'}]);
-          this.router.navigate(['/home']).then()
+          this.router.navigate(['/login']).then()
         }),
         tap((res) => {
           localStorage.setItem('userId', res.id);

@@ -21,6 +21,7 @@ import {DespesaService} from "../../services/despesa/despesa.service";
 import {map, switchMap, tap} from "rxjs";
 import {TipoDespesaModel} from "../tipo-despesa/tipo-despesa.model";
 import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.service";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-despesa',
@@ -43,7 +44,8 @@ import {TipoDespesaService} from "../../services/tipo-despesa/tipo-despesa.servi
     ToolbarModule,
     CalendarModule,
     FloatLabelModule,
-    DatePipe
+    DatePipe,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './despesa.component.html',
@@ -249,6 +251,10 @@ export class DespesaComponent {
       ...despesa,
       data: new Date(despesa.data) // Converte a data para um objeto Date
     };
+
+    // Encontra o tipo de despesa correspondente e atribui a `selectedTipoDespesa`
+    this.selectedTipoDespesa = this.tipoDespesa.find(td => td.id === despesa.idTipoDespesa) as TipoDespesaModel;
+
     this.despesaDialog = true;
   }
 
