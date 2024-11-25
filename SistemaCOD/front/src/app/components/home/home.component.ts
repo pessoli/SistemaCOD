@@ -156,22 +156,36 @@ export class HomeComponent implements OnInit {
     this.tipoDespesaService.chartTipoDespesaSomaMes(idUsuario as unknown as number)
       .pipe(
         tap((chartData: any[]) => {
-          const labels = Array.from(new Set(chartData.map(d => d.mesAno)));
+          // Garantir que chartData seja um array válido
+          if (!chartData || chartData.length === 0) {
+            this.dataSomaDespesa = null;
+            return;
+          }
 
-          // Formatar as datas no formato desejado (MM/YYYY)
+          // Extrair e formatar os meses únicos no formato desejado
+          const labels = Array.from(new Set(chartData.map(d => d.mesAno).filter(Boolean))); // Remover valores nulos
           const formattedLabels = labels.map(mesAno => {
-            const [ano, mes] = mesAno.split('-');
-            return this.datePipe.transform(`${mes}-01-${ano}`, 'MM/yyyy'); // Formata como 'MM/yyyy'
+            const [ano, mes] = (mesAno || '').split('-'); // Dividir com segurança
+            return this.datePipe.transform(`${mes || '01'}-01-${ano || '2000'}`, 'MM/yyyy'); // Formatar como 'MM/yyyy'
           });
 
-          const tiposDespesa = Array.from(new Set(chartData.map(d => d.tipoDespesa)));
-          const dataByTipoDespesa: { [key: string]: number[] } = {};
+          // Obter todos os tipos de despesas
+          const tiposDespesa = Array.from(new Set(chartData.map(d => d.tipoDespesa).filter(Boolean))); // Remover valores nulos
 
+          // Inicializar estrutura de dados com 0 para todos os tipos de despesa e meses
+          const dataByTipoDespesa: { [key: string]: number[] } = {};
           tiposDespesa.forEach(tipo => {
-            dataByTipoDespesa[tipo] = formattedLabels.map(mes => {
-              const found = chartData.find(d => d.tipoDespesa === tipo && this.datePipe.transform(d.mesAno, 'MM/yyyy') === mes);
-              return found ? found.somaDespesas : 0;
-            });
+            dataByTipoDespesa[tipo] = formattedLabels.map(() => 0); // Inicia com 0 para todos os meses
+          });
+
+          // Preencher os valores reais das despesas
+          chartData.forEach(d => {
+            const mes = this.datePipe.transform(d.mesAno, 'MM/yyyy');
+            const mesIndex = formattedLabels.indexOf(mes || '');
+
+            if (mesIndex !== -1 && d.tipoDespesa) {
+              dataByTipoDespesa[d.tipoDespesa][mesIndex] = d.somaDespesas || 0;
+            }
           });
 
           const documentStyle = getComputedStyle(document.documentElement);
@@ -179,7 +193,7 @@ export class HomeComponent implements OnInit {
           const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
           const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-          // Definindo cores para as barras, uma cor por tipo de despesa
+          // Definir cores para as barras, uma cor por tipo de despesa
           const barColors = tiposDespesa.map((_, index) => {
             const colorPalette = [
               'rgba(75, 192, 192, 0.8)',
@@ -190,7 +204,7 @@ export class HomeComponent implements OnInit {
             return colorPalette[index % colorPalette.length];
           });
 
-          // Preparando o formato dos dados para o gráfico
+          // Preparar o formato dos dados para o gráfico
           this.dataSomaDespesa = {
             labels: formattedLabels,
             datasets: tiposDespesa.map((tipo, index) => ({
@@ -203,7 +217,7 @@ export class HomeComponent implements OnInit {
             }))
           };
 
-          // Definindo opções de configuração para o gráfico
+          // Configurar opções do gráfico
           this.optionsSomaDespesa = {
             maintainAspectRatio: false,
             aspectRatio: 0.8,
@@ -268,7 +282,5 @@ export class HomeComponent implements OnInit {
       )
       .subscribe();
   }
-
-
 
 }
