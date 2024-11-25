@@ -19,14 +19,13 @@ const Despesas = () => {
     const [dataCollected, setDataCollected] = useState<any | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [despesaSelecionada, setDespesaSelecionada] = useState<TipoDespesaData | null>(null);
-    const [valorPagamento, setValorPagamento] = useState('');
+    const [valorPagamento, setValorPagamento] = useState(''); // Não está sendo utilizado atualmente
     const [idDespesaOk, setIdDespesaOk] = useState(0);
     const [tiposDespesa, setTiposDespesa] = useState<TipoDespesaData[]>([]);
     const [observacao, setObservacao] = useState('');
     const [valor, setValor] = useState('');
     const [observacaoValida, setObservacaoValida] = useState(true);  // Novo estado para controlar a validação da observação
     const [updated, setUpdated] = useState(0); // Estado para forçar a atualização
-
 
     useEffect(() => {
         const recuperarUsuario = async () => {
@@ -52,8 +51,8 @@ const Despesas = () => {
             const response = await fetch(`http://localhost:8080/tipo_despesa/busca/${dataCollected.id}`);
             if (!response.ok) throw new Error('Erro ao buscar os tipos de despesa: ' + response.statusText);
             const data = await response.json();
-
             console.log("Tipos de Despesa recebidos da API:", data);
+
             if (Array.isArray(data)) {
                 setTiposDespesa(data);
             } else {
@@ -72,22 +71,34 @@ const Despesas = () => {
 
     const buscarDespesas = async () => {
         if (!dataCollected || tiposDespesa.length === 0) return;
-    
+
         try {
             const tiposComSoma = await Promise.all(tiposDespesa.map(async (tipo) => {
                 const somaResponse = await fetch(`http://localhost:8080/despesas/soma/${tipo.id}`);
                 if (!somaResponse.ok) throw new Error('Erro ao buscar soma das despesas');
-                const soma = await somaResponse.json();
+
+                const responseBody = await somaResponse.text();  // Lê o corpo da resposta como texto
+                console.log("Corpo da resposta da soma:", responseBody);
+
+                let soma = 0;
+                if (responseBody) {
+                    try {
+                        soma = JSON.parse(responseBody);  // Tenta parsear como JSON
+                    } catch (e) {
+                        console.error('Erro ao parsear JSON:', e);
+                        soma = 0;  // Defina soma como 0 se não for possível parsear
+                    }
+                }
+
                 return { ...tipo, valorTotal: soma || 0 };
             }));
-    
+
             setDados(tiposComSoma);
             setUpdated(prev => prev + 1);  // Atualiza o contador para forçar re-renderização
         } catch (error) {
             console.error("Erro ao buscar as despesas:", error);
         }
     };
-    
 
     const cadastrarDespesa = async () => {
         // Verificar se todos os campos foram preenchidos
@@ -98,16 +109,16 @@ const Despesas = () => {
             }
             return;
         }
-    
+
         // Verificar se o valor é um número válido
         if (isNaN(Number(valor)) || valor.trim() === '') {
             console.log("preencha valor valido");
             return;
         }
-    
+
         try {
             const dataAtual = new Date().toISOString();
-    
+
             const response = await fetch('http://localhost:8080/despesas', {
                 method: 'POST',
                 headers: {
@@ -121,23 +132,22 @@ const Despesas = () => {
                     data: dataAtual,
                 }),
             });
-    
+
             if (!response.ok) throw new Error('Erro ao cadastrar a despesa');
-    
+
             console.log("cadastrado com sucesso");
-    
+
             setModalVisible(false);
             setValor('');
             setObservacao('');
             setObservacaoValida(true); // Restaura a validação
-    
+
             // Chama a função de busca para atualizar os dados após o cadastro
             buscarDespesas();
         } catch (error) {
             console.error('Erro ao cadastrar despesa:', error);
         }
     };
-    
 
     const handleValorChange = (text: string) => {
         // Expressão regular para permitir apenas números e um ponto decimal
